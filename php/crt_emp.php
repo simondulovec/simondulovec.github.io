@@ -16,12 +16,6 @@ echo "<div class='mn_ctn'>
 							<button class='dd_btn' id='crt_exp'>+</button>
 						</div>
 					</div>
-					<div class='exp_edt_mn'>
-						<div class='exp_sli_edt'>
-							<input class='big_ipt' id='exp_chg' type='text'>
-							<button class='dd_btn' id='cfm_edt_exp'>~</button>
-						</div>
-					</div>
 				</div>
 			</div>
 			<input class='big_ipt from_top' id='emp_nm' type='text' placeholder='Meno a priezvisko'>	 

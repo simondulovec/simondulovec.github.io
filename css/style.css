@@ -502,7 +502,7 @@ margin:60px auto 0 auto;
 /*=========================SELECT_EXPERTISE=========================*/
 
 #select {
-width:400px;
+width:402px;
 height:50px;
 margin-top:20px;
 margin-left:20px;
@@ -512,7 +512,7 @@ position:relative;
 }
 
 #sh_exp_lt{
-width:348px;
+width:350px;
 height:50px;
 background:rgba(0,0,0,0.6);
 font-size:20px;
@@ -531,13 +531,15 @@ background:rgba(0,0,0,0.7);
 .exp_lt{
 position:absolute;
 top:52px;
-width:348px;
-height:154px;
+width:350px;
+height:156px;
 overflow:hidden;
+background:red;
+#z-index:-1;
 }
 
 .exp_scr_lt{
-width:348px;
+width:350px;
 overflow-y:auto;
 overflow-x:hidden;
 #scrollbar-width:thin;
@@ -546,15 +548,16 @@ height:0;
 }
 
 .exp_lt_ele{
-width:348px;
+width:350px;
 height:50px;
-display:flex;
 margin-bottom:2px;
 direction:ltr;
+position:relative;
+background:green;
 }
 
 .exp_lt_btn{
-width:244px;
+width:246px;
 height:50px;
 background:rgba(0,0,0,0.5);
 color:white;
@@ -569,6 +572,32 @@ background:rgba(0,0,0,0.7);
 cursor:pointer;
 }
 
+.exp_info{
+position:absolute;
+top:0;
+left:0;
+width:350px;
+height:50px;
+display:flex;
+z-index:1;
+}
+
+.edit_exp{
+width:350px;
+height:50px;
+position:absolute;
+top:0;
+left:0;
+display:flex;
+opacity:0;
+z-index:0;
+}
+
+.edit_exp input{
+margin:0;
+width:298px;
+}
+
 /*========================EXPERTISE_MENU=========================*/
 
 .exp_mn{
@@ -576,8 +605,9 @@ position:absolute;
 top:52px;
 width:348px;
 height:50px;
-#background:red;
+#background:blue;
 overflow:hidden;
+z-index:-1;
 }
 
 .exp_sli_mn{
@@ -586,27 +616,6 @@ top:-52px;
 }
 
 #new_exp{
-width:298px;
-margin:0;
-}
-
-/*========================EDIT_EXPERTISE===========================*/
-
-.exp_edt_mn{
-position:absolute;
-top:104px;
-width:350px;
-height:50px;
-#background:red;
-overflow:hidden;
-}
-
-.exp_sli_edt{
-top:-52px;
-display:flex;
-}
-
-#exp_chg{
 width:298px;
 margin:0;
 }

@@ -272,84 +272,44 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".rem_exp",function(){
 		var exp_id = $(this).val();
-		var num_of_ele=$(".exp_scr_lt").find(".exp_lt_ele").length;
-		$.ajax({
-			method: "post",
-			dataType: "json",
-			url: "php/del_exp.php",
-			data: {exp_id:exp_id},
-			success: function(data){
-				if (data.state == "error"){
-					show_info("Pozícia sa nedá vymazať!");
-				}else{
-					show_question("Odstrániť pozíciu?");
-					$(document).on("mousedown","#con_pp",function(){
+
+		show_question("Naozaj chcete pozíciu odstŕaniť?");
+
+		$(document).on("mousedown","#con_pp",function(){
+			hide_question();
+
+			$.ajax({
+				method: "post",
+				dataType: "json",
+				url: "php/del_exp.php",
+				data: {exp_id:exp_id},
+				success: function(data){
+					if (data.state == "error"){
+						show_info("Pozícia sa nedá odstrániť!");
+					}else{
 						ld_exp();
-						hide_question();
-						show_info("Pozícia odstránená");
-						if (exp_id==$("#sh_exp_lt").val()){
-							res_sh_exp_lt();
-						}
-						num_of_ele-=1;
-						if(num_of_ele==0){
-							hide_exp_lt();
-						}
-					});
+						show_info("Pozícia odstránená!");
+					}
 				}
-			}
+			});
 		});
 	});
 
 	$(document).on("mousedown",".edt_exp",function(){
-		var exp_ct=$(".exp_scr_lt").find(".exp_lt_ele").length;
-		var last_ele = 208;
-		var top_pos=52+(exp_ct*52);
+		var par_ele = $(this).parent();
+		par_ele.css("z-index","0");
+		par_ele.animate({opacity:0},200);
 
-		if (top_pos>last_ele){
-			top_pos=last_ele;
-		}
-		var str_top_pos=top_pos.toString() + "px";
-		$(".exp_edt_mn").css("top",str_top_pos);
-
-		if(edt_exp_dpd==false){		
-			$(".exp_edt_mn").css("z-index","1");
-			$(".exp_sli_edt").animate({top: "+=52px"},200);
-			edt_exp_dpd=true;
-			edt_exp_ok=true;
-		}
-		else if(edt_exp_dpd==true){
-			if ($(this).val()==$("#exp_chg").val()){
-				$(".exp_edt_mn").css("z-index","0");
-				$(".exp_sli_edt").animate({top: "-=52px"},200);
-				edt_exp_dpd=false;
-				edt_exp_ok=false;
-			}
-		}
-		$("#exp_chg").val($(this).val());
-		$("#cfm_edt_exp").val($(this).val());
+		par_ele.parent().find(".edit_exp").animate({opacity:1},200);
+		par_ele.parent().find(".edit_exp").css("z-index","1");
 	});
 
 	$(document).on("mousedown","#cfm_edt_exp",function(){	
 		if (edt_exp_ok==true){
-			if ($("#cfm_edt_exp").val()!=$("#exp_chg").val()){
-				var exp_chg = $("#exp_chg").val();
-				var ori_exp = $(this).val();
-				$.ajax({
-					method: "post",
-					url: "php/ud_exp.php",
-					data: {ori_exp:ori_exp, exp_chg:exp_chg},
-					success: function(){
-						ld_exp();
-						show_info("Pozícia bola premenovaná!");
-					}
-				});
-				if ($("#cfm_edt_exp").val()==$("#sh_exp_lt").text()){
-					$("#sh_exp_lt").text($("#exp_chg").val());
-				}
-				$(this).val($("#exp_chg").val());
-			}else{
-				show_info("Žiadne zmeny!");
-			}
+
+		var exp_id = $(this).val();
+		var exp_chg = $("#exp_chg").val();
+
 		}else{
 			show_info("Zadajte správny formát!");
 		}
@@ -630,9 +590,10 @@ function hide_atd_lt_item(parent_item){
 
 function show_exp_lt(){
 	var list_height = exp_scr_lt_height();
+	/*	$(".exp_lt").css("height","" + list_height + "px");*/
+	$(".exp_lt").css("z-index","1");
 	$(".exp_scr_lt").css("top","-" + list_height + "px");
 	$(".exp_scr_lt").css("height","" + list_height + "px");
-	$(".exp_lt").css("z-index","1");
 	$(".exp_scr_lt").animate({
 		top: "+=" + list_height + "px"	
 	},200);
@@ -641,10 +602,11 @@ function show_exp_lt(){
 
 function hide_exp_lt(){
 	var lt_height = exp_scr_lt_height();
-	$(".exp_lt").css("z-index","0");
+	//$(".exp_lt").css("z-index","-1");
 	$(".exp_scr_lt").animate({
 		top: "-=" + lt_height + "px"
 	},200);
+	/*	$(".exp_lt").animate({height:0},200);*/
 	exp_lt_dpd=false;
 }
 
