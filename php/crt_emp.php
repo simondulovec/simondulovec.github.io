@@ -18,11 +18,26 @@ echo "<div class='mn_ctn'>
 					</div>
 				</div>
 			</div>
+			<div class='per_wk_info'>
+			<div class='per_info'>
 			<input class='big_ipt from_top' id='emp_nm' type='text' placeholder='Meno a priezvisko'>	 
 			<input class='big_ipt from_top' id='date_of_bh' type='text' placeholder='Dátum narodenia'>
+			</div>
+			<div class='wk_info'>
   			<input class='big_ipt from_top' id='salary' type='text' placeholder='EUR/hod'>
-			<input class='big_ipt from_top' id='st_date' type='text' placeholder='Dátum nástupu'>	
-			
+			<input class='big_ipt from_top' id='st_date' type='text' placeholder='Dátum nástupu'>
+			</div>
+			</div>	
+
+			<div class='addr_add_info'>
+			<div class='addr'>	
+			<input class='big_ipt from_top' id='city' type='text' placeholder='Mesto/Obec'>
+			<input class='big_ipt from_top' id='street' type='text' placeholder='Ulica'>
+			<input class='big_ipt from_top' id='stt_num' type='text' placeholder='PSČ'>
+			</div>
+			<textarea id='add_info' placeholder='Poznámky'></textarea>
+			</div>	
+
 			<div class='crt_emp_btns from_bottom'>
 				<button class='sml_btn' id='crt_emp'>
 				<img class='sml_img' src='img/add_employee.png'>

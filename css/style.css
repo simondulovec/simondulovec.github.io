@@ -283,6 +283,37 @@ overflow:hidden;
 background:rgba(0,0,0,0.3);
 }
 
+textarea{
+width:310px;
+height:170px;
+margin:20px 0 0 20px;
+resize:none;
+padding:10px 20px 10px 20px;
+font-size:20px;
+}
+
+textarea:focus{
+background:rgba(0,0,0,0.7);
+}
+
+textarea:hover, textarea{
+background:rgba(0,0,0,0.7);
+}
+
+textarea, textarea{
+background:rgba(0,0,0,0.6);
+transition:background 0.3s;
+}
+
+textarea::placeholder{
+opacity:1;
+}
+
+textarea:focus::placeholder{
+color:transparent;
+}
+
+
 /*=========================ANIMATIONS=========================*/
 
 .from_right{
@@ -459,6 +490,10 @@ margin-left:20px;
 display:block;
 }
 
+#card_id{
+margin-top:10px;
+}
+
 #salary:invalid{
 box-shadow:none;
 }
@@ -487,8 +522,16 @@ animation-delay:0.07s;
 animation-delay:0.2s;
 }
 
+.per_wk_info{
+display:flex;
+}
+
+.addr_add_info{
+display:flex;
+}
+
 .id_expertise{
-margin-top:40px;
+margin-top:20px;
 display:flex;
 width:810px;
 }
@@ -496,7 +539,7 @@ width:810px;
 .crt_emp_btns{
 width:250px;
 height:120px;
-margin:60px auto 0 auto;
+margin:35px auto 0 auto;
 }
 
 /*=========================SELECT_EXPERTISE=========================*/
@@ -504,7 +547,7 @@ margin:60px auto 0 auto;
 #select {
 width:402px;
 height:50px;
-margin-top:20px;
+margin-top:10px;
 margin-left:20px;
 font-size:20px;
 display:flex;
@@ -532,10 +575,10 @@ background:rgba(0,0,0,0.7);
 position:absolute;
 top:52px;
 width:350px;
-height:154px;
+height:156px;
 overflow:hidden;
-background:red;
-#z-index:-1;
+#background:red;
+z-index:-1;
 }
 
 .exp_scr_lt{
@@ -553,7 +596,7 @@ height:50px;
 margin-bottom:2px;
 direction:ltr;
 position:relative;
-background:green;
+#background:green;
 }
 
 .exp_lt_btn{
@@ -603,7 +646,7 @@ width:298px;
 .exp_mn{
 position:absolute;
 top:52px;
-width:348px;
+width:350px;
 height:50px;
 #background:blue;
 overflow:hidden;

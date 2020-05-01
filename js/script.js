@@ -7,7 +7,7 @@ var st_date_ok=false;
 var exp_ok=false;
 
 var crt_exp_ok=false;
-var edt_exp_ok=false;
+var edt_exp_ok=true;
 var edt_atd_ok=false;
 
 var exp_lt_dpd=false;
@@ -19,7 +19,7 @@ var emp_card_id="";
 
 $(document).ready(function(){
 
-	$("#app").load("php/admin_mn.php");
+	$("#app").load("php/app_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -235,12 +235,10 @@ $(document).ready(function(){
 	$(document).on("mousedown","#sh_exp_mn",function(){
 		if (exp_mn_dpd==false){
 			$('#new_exp').val("");
-			$('.exp_mn').css("z-index","1");
-			$(".exp_sli_mn").animate({top:"+=52px"},200);
+			show_exp_mn();
 			exp_mn_dpd = true;
 		}else if(exp_mn_dpd==true){
-			$('.exp_mn').css("z-index","0");
-			$(".exp_sli_mn").animate({top:"-=52px"},200);
+			hide_exp_mn();
 			exp_mn_dpd=false;
 			$("#new_exp").val("");	
 		}
@@ -272,9 +270,7 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".rem_exp",function(){
 		var exp_id = $(this).val();
-
 		show_question("Naozaj chcete pozíciu odstŕaniť?");
-
 		$(document).on("mousedown","#con_pp",function(){
 			hide_question();
 			
@@ -289,15 +285,27 @@ $(document).ready(function(){
 				url: "php/del_exp.php",
 				data: {exp_id:exp_id},
 				success: function(data){
-					if (data.state == "error"){
-						show_info("Pozícia sa nedá odstrániť!");
-					}else{
-						ld_exp();
-						show_info("Pozícia odstránená!");
-					}
+						if (data.state == "error"){
+							show_info("Pozícia sa nedá odstrániť!");
+						}else{
+							ld_exp();
+							show_info("Pozícia odstránená!");
+						}
+					},
+				complete: function(){
+						var lt_height = ($(".exp_scr_lt").find(".exp_lt_ele").length * 52) - 52;
+						if (lt_height < 156){
+							$(".exp_lt").css("height","" + lt_height + "px");
+							if (lt_height==52){
+								show_st_date();
+							}else if(lt_height==0){
+								show_salary();
+							}
+						}
 				}
 			});
-		});
+		});	
+
 	});
 
 	$(document).on("mousedown",".edt_exp",function(){
@@ -420,14 +428,15 @@ $(document).ready(function(){
 			var parent_item = $(this).parent();
 			var check_in = parent_item.find(".check_in_ipt").val();
 			var check_out = parent_item.find(".check_out_ipt").val();
-			hide_edit_atd();
-			show_atd_lt_item();
 
 			$.ajax({
 				method: "post",
 				url: "php/ud_atd.php",
 				data: {atd_id:atd_id, check_in:check_in, check_out:check_out},
 				success: function(){
+					hide_edit_atd();
+					show_atd_lt_item();
+
 					show_info("Dochádzka upravená!");
 				}
 			});
@@ -458,7 +467,6 @@ $(document).ready(function(){
 					hide_question();
 					show_info("Položka vymazaná!");
 				}
-
 			});
 		});
 	});
@@ -528,8 +536,7 @@ function bind_crt_emp(e){
 		if (!$target.is("#sh_exp_mn")){
 			if (!$target.is("#new_exp")){
 				if (!$target.is("#crt_exp")){
-					$(".exp_sli_mn").animate({top:"-=52px"},200);
-					$(".exp_mn").css("z-index","0");
+					hide_exp_mn();
 					exp_mn_dpd=false;
 					$("#new_exp").val("");
 				}
@@ -540,9 +547,11 @@ function bind_crt_emp(e){
 	if (edt_exp_dpd==true){
 		if(!$target.is(".exp_chg")){
 			if(!$target.is("#cfm_pp")){
-			hide_edit_exp();
-			show_exp_info();
-			edt_exp_dpd=false;
+				if(!$target.is(".cfm_edt_exp")){
+				hide_edit_exp();
+				show_exp_info();
+				edt_exp_dpd=false;
+				}
 			}
 		}
 	}
@@ -589,6 +598,18 @@ function hide_question(){
 
 /*=========================CREATE_EMPLOYEE_ELEMENTS_FUNCTIONS=========================*/
 
+function show_exp_mn(){
+	$(".exp_sli_mn").animate({top:"+=52px"},200);
+	$(".exp_mn").css("z-index","1");
+	hide_salary();
+}
+
+function hide_exp_mn(){
+	$(".exp_sli_mn").animate({top:"-=52px"},200);
+	$(".exp_mn").css("z-index","0");
+	show_salary();
+}
+
 function show_exp_info(){
 	$(".exp_info").css("z-index","1");
 	$(".exp_info").animate({opacity:1},200);
@@ -634,23 +655,52 @@ function hide_atd_lt_item(parent_item){
 
 function show_exp_lt(){
 	var list_height = exp_scr_lt_height();
-	/*	$(".exp_lt").css("height","" + list_height + "px");*/
+	$(".exp_lt").css("height","" + list_height + "px");
 	$(".exp_lt").css("z-index","1");
 	$(".exp_scr_lt").css("top","-" + list_height + "px");
 	$(".exp_scr_lt").css("height","" + list_height + "px");
 	$(".exp_scr_lt").animate({
 		top: "+=" + list_height + "px"	
 	},200);
+	
+	if (list_height==52){
+		hide_salary();
+	}else if (list_height >52){
+		hide_salary();
+		hide_st_date();
+	}
+
 	exp_lt_dpd=true;
+}
+
+function show_salary(){
+	$("#salary").animate({opacity:1},200);
+	$("#salary").css("z-index","0");
+}
+
+function hide_salary(){
+	$("#salary").animate({opacity:0},200);
+	$("#salary").css("z-index","-1");
+}
+
+function show_st_date(){
+	$("#st_date").animate({opacity:1},200);
+	$("#st_date").css("z-index","0");
+}
+
+function hide_st_date(){
+	$("#st_date").animate({opacity:0},200);
+	$("#st_date").css("z-index","-1");
 }
 
 function hide_exp_lt(){
 	var lt_height = exp_scr_lt_height();
-	//$(".exp_lt").css("z-index","-1");
+	$(".exp_lt").css("z-index","-1");
 	$(".exp_scr_lt").animate({
 		top: "-=" + lt_height + "px"
 	},200);
-	/*	$(".exp_lt").animate({height:0},200);*/
+	show_salary();
+	show_st_date();
 	exp_lt_dpd=false;
 }
 
@@ -678,12 +728,15 @@ function check_emp_num(){
 
 function check_exp_num(){
 	var max_exp_vis = 3;
-	var new_width = "250px";
+	var new_width = "232px";
+	var new_widthi = "284px"
 	var new_margin = "14px";
 	var num_of_exp = $(".exp_scr_lt").find(".exp_lt_ele").length;
 	if(num_of_exp > max_exp_vis){
 		$('.exp_lt_btn').css("width",new_width);
 		$('.exp_lt_btn').css("margin-left",new_margin);
+		$('.exp_chg').css("width",new_widthi);
+		$('.exp_chg').css("margin-left",new_margin);
 	}
 }
 
@@ -903,6 +956,7 @@ function ld_exp(){
 	//loading expertise data from database
 	$(".exp_scr_lt").load("php/ld_exp.php",function(){
 		check_exp_num();
+		
 	});
 }
 
