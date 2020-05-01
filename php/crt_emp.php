@@ -164,8 +164,8 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 
-		$('#exp_chg').mousedown(function(){
-			var input = $('#exp_chg');
+		$(document).on('mousedown','.exp_chg',function(){
+			var input = $('.exp_chg');
 			setInterval(function(){
 				if (chk_edt_exp()==false){
 					if (input.val().length > 0){

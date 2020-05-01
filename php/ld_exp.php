@@ -14,7 +14,7 @@ while ($row = $result->fetch_assoc()){
 		</div>
 		<div class='edit_exp'>
 			<input class='big_ipt exp_chg' value=".$row["nazov"]." type='text'>
-			<button class='dd_btn cfm_edt_exp' val=".$row["id"].">~</button>
+			<button class='dd_btn cfm_edt_exp' value=".$row["id"].">~</button>
 		</div>
               </div>";
 }

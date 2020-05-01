@@ -277,6 +277,11 @@ $(document).ready(function(){
 
 		$(document).on("mousedown","#con_pp",function(){
 			hide_question();
+			
+			if (exp_id== $("#sh_exp_lt").val()){
+				$("#sh_exp_lt").val(-1);
+				$("#sh_exp_lt").html("Pozícia");
+			}
 
 			$.ajax({
 				method: "post",
@@ -297,20 +302,40 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".edt_exp",function(){
 		var par_ele = $(this).parent();
-		par_ele.css("z-index","0");
-		par_ele.animate({opacity:0},200);
+		if (edt_exp_dpd==false){
+			hide_exp_info(par_ele);
+			show_edit_exp(par_ele);
+			edt_exp_dpd=true
+		}else if (edt_exp_dpd==true){
+			hide_edit_exp();
+			show_exp_info();
 
-		par_ele.parent().find(".edit_exp").animate({opacity:1},200);
-		par_ele.parent().find(".edit_exp").css("z-index","1");
+			hide_exp_info(par_ele);
+
+			show_edit_exp(par_ele);
+		}
 	});
 
-	$(document).on("mousedown","#cfm_edt_exp",function(){	
+	$(document).on("mousedown",".cfm_edt_exp",function(){	
 		if (edt_exp_ok==true){
-
 		var exp_id = $(this).val();
-		var exp_chg = $("#exp_chg").val();
+		var exp_chg = $(this).parent().find(".exp_chg").val();
 
-		}else{
+		$.ajax({
+			method: "post",
+			url: "php/ud_exp.php",
+			data: {exp_id:exp_id, exp_chg:exp_chg},
+			success: function(){
+				ld_exp();
+				show_info("Pozícia premenovaná!");
+
+				if(exp_id==$("#sh_exp_lt").val()){
+					$("#sh_exp_lt").html(exp_chg);
+				}
+			}
+
+		});
+			}else{
 			show_info("Zadajte správny formát!");
 		}
 	});
@@ -487,8 +512,8 @@ function bind_crt_emp(e){
 				/*	if (!$target.is(".list_button")){ */
 				if (!$target.is(".rem_exp")){
 					if (!$target.is(".edt_exp")){
-						if (!$target.is("#exp_chg")){
-							if (!$target.is("#cfm_edt_exp")){
+						if (!$target.is(".exp_chg")){
+							if (!$target.is(".cfm_edt_exp")){
 								hide_exp_lt();
 							}
 						}
@@ -513,13 +538,11 @@ function bind_crt_emp(e){
 	}
 
 	if (edt_exp_dpd==true){
-		if (!$target.is(".edt_exp")){
-			if (!$target.is("#exp_chg")){
-				if (!$target.is("#cfm_edt_exp")){
-					$(".exp_sli_edt").animate({top: "-=52px"},200);
-					edt_exp_dpd=false;
-					$(".rem_exp").val("");
-				}
+		if(!$target.is(".exp_chg")){
+			if(!$target.is("#cfm_pp")){
+			hide_edit_exp();
+			show_exp_info();
+			edt_exp_dpd=false;
 			}
 		}
 	}
@@ -565,6 +588,27 @@ function hide_question(){
 }
 
 /*=========================CREATE_EMPLOYEE_ELEMENTS_FUNCTIONS=========================*/
+
+function show_exp_info(){
+	$(".exp_info").css("z-index","1");
+	$(".exp_info").animate({opacity:1},200);
+}
+
+function hide_edit_exp(){
+	$(".edit_exp").css("z-index","0");
+	$(".edit_exp").animate({opacity:0},{queue:false, duration:300});
+}
+
+function hide_exp_info(par){
+	par.css("z-index","0");
+	par.animate({opacity:0},200);
+}
+
+function show_edit_exp(par){
+	par.parent().find(".edit_exp").animate({opacity:1},{queue:false, duration:300});
+	par.parent().find(".edit_exp").css("z-index","1");
+
+}
 
 function show_edit_atd(parent_item){
 	parent_item.find(".edit_atd_mn").css("z-index",0);
@@ -727,7 +771,7 @@ function chk_exp(){
 
 function chk_edt_exp(){
 	var ess=/^[a-z0-9]+$/;
-	var val=$("#exp_chg").val();
+	var val=$(".exp_chg").val();
 
 	if (val.match(ess)){
 		if (val[0]!=' '){
