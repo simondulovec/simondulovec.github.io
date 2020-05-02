@@ -167,16 +167,14 @@ $(document).ready(function(){
 		},300);
 	});	
 
-	$(document).on("mousedown","#bk_crt_emp",function(){
+	$(document).on("mousedown",".bk_crt_emp",function(){
 		$(".crt_emp_btns").delay(200).animate({bottom:"-=700px"},600);
-		$("#select").animate({bottom:"+=800px"},600);
-		$("#card_id").animate({bottom:"+=800px"},600);
-		$("#emp_nm").delay(70).animate({bottom:"+=800px"},600);
-		$("#date_of_bh").delay(140).animate({bottom:"+=800px"},600);
-		$("#salary").delay(210).animate({bottom:"+=800px"},600);
-		$("#st_date").delay(280).animate({bottom:"+=800px"},600);
-
-
+		$(".select").animate({bottom:"+=800px"},600);
+		$(".card_id").animate({bottom:"+=800px"},600);
+		$(".emp_nm").delay(70).animate({bottom:"+=800px"},600);
+		$(".date_of_bh").delay(140).animate({bottom:"+=800px"},600);
+		$(".salary").delay(210).animate({bottom:"+=800px"},600);
+		$(".st_date").delay(280).animate({bottom:"+=800px"},600);
 
 		setTimeout(function(){
 			$("#app").load("php/admin_mn.php",function(){
@@ -184,19 +182,19 @@ $(document).ready(function(){
 		},600);
 	});
 
-	$(document).on("mousedown","#crt_emp",function(){	
+	$(document).on("mousedown",".crt_emp",function(){	
 		if (chk_crt_emp_ipts()){	
-			var card_id = $("#card_id").val();
-			var emp_nm = $("#emp_nm").val();
-			var date_of_bh = $("#date_of_bh").val();
-			var salary = parseInt($("#salary").val());
-			var st_date = $("#st_date").val();
-			var exp_id = $("#sh_exp_lt").val();
-			var city = $("#city").val();
-			var street = $("#street").val();
-			var stt_num = $("#stt_num").val();
-			var phone_num = $("#phone_num").val();
-			var add_info = $("#add_info").val();
+			var card_id = $(".card_id").val();
+			var emp_nm = $(".emp_nm").val();
+			var date_of_bh = $(".date_of_bh").val();
+			var salary = parseInt($(".salary").val());
+			var st_date = $(".st_date").val();
+			var exp_id = $(".sh_exp_lt").val();
+			var city = $(".city").val();
+			var street = $(".street").val();
+			var stt_num = $(".stt_num").val();
+			var phone_num = $(".phone_num").val();
+			var add_info = $(".add_info").val();
 
 			$.ajax({
 				method: "post",
@@ -220,7 +218,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$(document).on("mousedown","#sh_exp_lt",function(){
+	$(document).on("mousedown",".sh_exp_lt",function(){
 		if ($(".exp_scr_lt").find(".exp_lt_ele").length > 0){
 			if (exp_lt_dpd==false){
 				show_exp_lt();
@@ -239,25 +237,25 @@ $(document).ready(function(){
 	});
 
 	$(document).on("mousedown",".exp_lt_btn",function(){
-		$("#sh_exp_lt").text($(this).text());
-		$("#sh_exp_lt").val($(this).val());
+		$(".sh_exp_lt").text($(this).text());
+		$(".sh_exp_lt").val($(this).val());
 	});
 
-	$(document).on("mousedown","#sh_exp_mn",function(){
+	$(document).on("mousedown",".sh_exp_mn",function(){
 		if (exp_mn_dpd==false){
-			$('#new_exp').val("");
+			$('.new_exp').val("");
 			show_exp_mn();
 			exp_mn_dpd = true;
 		}else if(exp_mn_dpd==true){
 			hide_exp_mn();
 			exp_mn_dpd=false;
-			$("#new_exp").val("");	
+			$(".new_exp").val("");	
 		}
 	});
 
-	$(document).on("mousedown","#crt_exp",function(){
+	$(document).on("mousedown",".crt_exp",function(){
 		if(crt_exp_ok==true){
-			var expertise = $("#new_exp").val();
+			var expertise = $(".new_exp").val();
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -268,7 +266,7 @@ $(document).ready(function(){
 						show_info("Pozícia sa v systéme už nacádza!");
 					}else{
 						ld_exp();
-						$("#new_exp").val("");
+						$(".new_exp").val("");
 						show_info("Pozícia vyrvorená!");
 					}
 				}
@@ -285,9 +283,9 @@ $(document).ready(function(){
 		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
 			
-			if (exp_id== $("#sh_exp_lt").val()){
-				$("#sh_exp_lt").val(-1);
-				$("#sh_exp_lt").html("Pozícia");
+			if (exp_id== $(".sh_exp_lt").val()){
+				$(".sh_exp_lt").val(-1);
+				$(".sh_exp_lt").html("Pozícia");
 			}
 
 			$.ajax({
@@ -348,8 +346,8 @@ $(document).ready(function(){
 				ld_exp();
 				show_info("Pozícia premenovaná!");
 
-				if(exp_id==$("#sh_exp_lt").val()){
-					$("#sh_exp_lt").html(exp_chg);
+				if(exp_id==$(".sh_exp_lt").val()){
+					$(".sh_exp_lt").html(exp_chg);
 				}
 			}
 
@@ -424,6 +422,62 @@ $(document).ready(function(){
 	$(document).on("mousedown",".can_add_inf",function(){
 		hide_emp_add_inf();
 	});
+
+	$(document).on("mousedown",".edit_emp",function(){
+		var emp_id = $(this).val();
+		set_ud_emp();
+		setTimeout(function(){
+			//var emp_id = $(this).val();
+			$("#app").load("php/edit_emp.php",{emp_id:emp_id},function(){
+				ld_exp();
+			});
+		},500);
+
+	});
+
+	/*========================EMPLOYEE_EDIT_MENU=======================*/
+
+	$(document).on("mousedown",".ud_emp",function(){
+		if (chk_crt_emp_ipts()){	
+			var card_id = $(".card_id").val();
+			var emp_nm = $(".emp_nm").val();
+			var date_of_bh = $(".date_of_bh").val();
+			var salary = parseInt($(".salary").val());
+			var st_date = $(".st_date").val();
+			var exp_id = $(".sh_exp_lt").val();
+			var city = $(".city").val();
+			var street = $(".street").val();
+			var stt_num = $(".stt_num").val();
+			var phone_num = $(".phone_num").val();
+			var add_info = $(".add_info").val();
+			var emp_id = $(this).val();
+
+			$.ajax({
+				method: "post",
+				dataType: "json",
+				url: "php/ud_emp.php",
+				data: {card_id:card_id, emp_nm:emp_nm, 
+					date_of_bh:date_of_bh, salary:salary, 
+					st_date:st_date,exp_id:exp_id, city:city, 
+					street:street, stt_num:stt_num, add_info:add_info, 
+					phone_num:phone_num, emp_id:emp_id},
+				success: function(data){
+					if (data.state=="update_error"){
+						show_info("Karta sa v systéme už nachádza!");
+					}else if(data.state=="no_changes"){
+						show_info("Žiadne zmeny!");
+					}else{
+						show_info("Zamestnanec upravený!");
+					}
+				}
+			});
+		}
+		else{
+			show_info("Vyplňte správne všetky údaje!");
+		}
+	});
+
+
 
 
 	/*=========================ATTENDANCE_VIEW_MENU==========================*/
@@ -536,7 +590,7 @@ function bind_crt_emp(e){
 	var $target = $(e.target);
 
 	if (exp_lt_dpd==true){
-		if (!$target.is("#sh_exp_lt")){
+		if (!$target.is(".sh_exp_lt")){
 			if (!$target.is(".exp_scr_lt")){
 				/*	if (!$target.is(".list_button")){ */
 				if (!$target.is(".rem_exp")){
@@ -554,12 +608,12 @@ function bind_crt_emp(e){
 	}
 
 	if (exp_mn_dpd==true){
-		if (!$target.is("#sh_exp_mn")){
-			if (!$target.is("#new_exp")){
-				if (!$target.is("#crt_exp")){
+		if (!$target.is(".sh_exp_mn")){
+			if (!$target.is(".new_exp")){
+				if (!$target.is(".crt_exp")){
 					hide_exp_mn();
 					exp_mn_dpd=false;
-					$("#new_exp").val("");
+					$(".new_exp").val("");
 				}
 			}
 		}
@@ -615,6 +669,22 @@ function hide_info(){
 function hide_question(){
 	$(".pop_up").css('display','none');
 	$(".question").css('display','none');
+}
+
+/*========================UPDATE_EMP_FUNCTIONS=======================*/
+
+function set_ud_emp(){
+card_id_ok = true;
+emp_nm_ok = true;
+date_of_bh_ok = true;
+salary_ok = true;
+st_date_ok = true;
+exp_ok = true;
+city_ok = true;
+street_ok = true;
+stt_num_ok = true;
+add_info_ok = true;
+phone_num_ok = true;
 }
 
 /*=========================CREATE_EMPLOYEE_ELEMENTS_FUNCTIONS=========================*/
@@ -694,23 +764,23 @@ function show_exp_lt(){
 }
 
 function show_salary(){
-	$("#salary").animate({opacity:1},{queue:false, duration:200});
-	$("#salary").css("z-index","0");
+	$(".salary").animate({opacity:1},{queue:false, duration:200});
+	$(".salary").css("z-index","0");
 }
 
 function hide_salary(){
-	$("#salary").animate({opacity:0},{queue:false, duration:200});
-	$("#salary").css("z-index","-1");
+	$(".salary").animate({opacity:0},{queue:false, duration:200});
+	$(".salary").css("z-index","-1");
 }
 
 function show_st_date(){
-	$("#st_date").animate({opacity:1},200);
-	$("#st_date").css("z-index","0");
+	$(".st_date").animate({opacity:1},200);
+	$(".st_date").css("z-index","0");
 }
 
 function hide_st_date(){
-	$("#st_date").animate({opacity:0},200);
-	$("#st_date").css("z-index","-1");
+	$(".st_date").animate({opacity:0},200);
+	$(".st_date").css("z-index","-1");
 }
 
 function hide_exp_lt(){
@@ -789,8 +859,8 @@ function remove_shadow(ele){$("#show_hide_expertise_list").val(-1);
 }
 
 function res_sh_exp_lt(){
-	$("#sh_exp_lt").val(-1);
-	$("#sh_exp_lt").text("Pozícia");
+	$(".sh_exp_lt").val(-1);
+	$(".sh_exp_lt").text("Pozícia");
 }
 
 /*=========================EMPLOYEE_VIEW============================*/
@@ -849,7 +919,34 @@ function chk_date_num(date_str){
 }
 
 function chk_crt_emp_ipts(){
-	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && st_date_ok && exp_ok && city_ok && street_ok && stt_num_ok && add_info_ok,phone_num_ok){
+
+	if (!card_id_ok){
+		set_shadow($(".card_id"));
+	}if (!emp_nm_ok){
+		set_shadow($(".emp_nm"));
+	}if (!date_of_bh_ok){
+		set_shadow($(".date_of_bh"));
+	}if (!salary_ok){
+		set_shadow($(".salary"));
+	}if (!st_date_ok){
+		set_shadow($(".st_date"));
+	}/*if (!exp_ok){
+		set_shadow($(".sh_exp_lt"));
+	}*/if (!city_ok){
+		set_shadow($(".city"));
+	}if (!street_ok){
+		set_shadow($(".street"));
+	}if (!stt_num_ok){
+		set_shadow($(".stt_num"));
+	}if (!add_info_ok){
+		set_shadow($(".add_info"));
+	}if (!phone_num_ok){
+		set_shadow($(".phone_num"));
+	}
+
+	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && 
+		st_date_ok && exp_ok && city_ok && street_ok && stt_num_ok && 
+		add_info_ok && phone_num_ok){
 		return true;
 	}
 	return false;
@@ -857,7 +954,7 @@ function chk_crt_emp_ipts(){
 
 function chk_exp(){
 
-	if ($("#sh_exp_lt").val()!=-1){
+	if ($(".sh_exp_lt").val()!=-1){
 		exp_ok=true;
 		return true; 
 	}else{
@@ -883,7 +980,7 @@ function chk_edt_exp(){
 
 function chk_new_exp(){
 	var ess=/^[a-z0-9]{1,20}$/;
-	var val=$("#new_exp").val();
+	var val=$(".new_exp").val();
 
 	if (val.match(ess)){
 		if (val[0]!=' '){
@@ -898,7 +995,7 @@ function chk_new_exp(){
 
 function chk_card_id(){
 	var ess=/^\d{10}$/;
-	var val=$("#card_id").val();
+	var val=$(".card_id").val();
 	if (val.match(ess)){
 		card_id_ok=true;
 		return true;
@@ -910,7 +1007,7 @@ function chk_card_id(){
 
 function chk_emp_nm(){
 	var ess=/^[a-zA-ZÀ-Ž\s]{1,30}$/;
-	var val=$("#emp_nm").val();
+	var val=$(".emp_nm").val();
 	if (val.match(ess)){
 		//checking for name starting with space
 		if (val[0]!=' '){
@@ -929,7 +1026,7 @@ function chk_date_of_bh(){
 	var date = new Date();
 	var year = date.getFullYear() - age;
 	var ess = /^([1-9]|1[0-9]|2[0-9]|30|31).([1-9]|1[0-2]).\d{4}$/;
-	var val = $("#date_of_bh").val();
+	var val = $(".date_of_bh").val();
 	var int_year = parseInt(val.slice(-4));
 
 	if (val.match(ess)){
@@ -948,7 +1045,7 @@ function chk_date_of_bh(){
 
 function chk_salary(){
 	var ess=/^\d{1,5}$/;
-	var val=$("#salary").val();
+	var val=$(".salary").val();
 	if (val.match(ess)){
 		salary_ok=true;
 		return true;
@@ -964,7 +1061,7 @@ function chk_st_date(){
 	var year= date.getFullYear();
 	var str= "^([1-9]|1[0-9]|2[0-9]|30|31).([1-9]|1[0-2]).(" + year + ")$";
 	var ess=new RegExp(str);
-	var val=$("#st_date").val();
+	var val=$(".st_date").val();
 	if (val.match(ess)){
 		if (chk_date_num(val)==true){
 			st_date_ok=true;
@@ -979,7 +1076,7 @@ function chk_st_date(){
 
 function chk_city(){
 	var ess=/^[a-zA-ZÀ-Ž\s]{1,30}$/;
-	var val=$("#city").val();
+	var val=$(".city").val();
 	if (val.match(ess)){
 		//checking for city starting with space
 		if (val[0]!=' '){
@@ -995,7 +1092,7 @@ function chk_city(){
 
 function chk_street(){
 	var ess=/^[0-9a-zA-ZÀ-Ž\s\.\/\\\-\,]{1,30}$/;
-	var val=$("#street").val();
+	var val=$(".street").val();
 	if (val.match(ess)){
 		//checking for street starting with space
 		if (val[0]!=' '){
@@ -1011,7 +1108,7 @@ function chk_street(){
 
 function chk_stt_num(){
 	var ess=/^\d{5}$/;
-	var val=$("#stt_num").val();
+	var val=$(".stt_num").val();
 	if (val.match(ess)){
 		stt_num_ok=true;
 		return true;
@@ -1024,7 +1121,7 @@ function chk_stt_num(){
 
 function chk_add_info(){
 	var ess=/^[.\S\s]{1,255}$/;
-	var val=$("#add_info").val();
+	var val=$(".add_info").val();
 	if (val.match(ess)){
 		add_info_ok=true;
 		return true;
@@ -1037,7 +1134,7 @@ function chk_add_info(){
 
 function chk_phone_num(){
 	var ess=/^\+[0-9]{12}$/;
-	var val=$("#phone_num").val();
+	var val=$(".phone_num").val();
 	if (val.match(ess)){
 		if (val[0]!=' '){
 		phone_num_ok=true;

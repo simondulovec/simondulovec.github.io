@@ -1,19 +1,41 @@
 <?php
+require "connect.php";
+require "create_conn.php";
+
+$sql="SELECT osoby.id_karty,
+		osoby.id,
+		osoby.meno,
+		DATE_FORMAT(osoby.datum_narodenia, '%e.%c.%Y') AS dt_of_bh,
+		DATE_FORMAT(osoby.datum_nastupu, '%e.%c.%Y') AS st_date,
+		osoby.mesto,
+		osoby.ulica,
+		osoby.psc,
+		pozicie.id AS id_poz,
+		pozicie.nazov AS nazov_poz,
+		osoby.plat,
+		osoby.tel_cislo,
+		osoby.poznamky
+		FROM osoby JOIN pozicie ON (osoby.pozicia=pozicie.id)
+		AND (osoby.id=".$_POST["emp_id"].")";
+
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+
 echo "<div class='mn_ctn'>
 		<div class='ctd crt_emp_mn'>	
 			<div class='l_r_panel'>
 				<div class=l_panel>		
-					<input class='big_ipt from_top card_id' type='text' placeholder='Id (10 cifier)'>
-					<input class='big_ipt from_top emp_nm' type='text' placeholder='Meno a priezvisko'>	 
-					<input class='big_ipt from_top date_of_bh' type='text' placeholder='Dátum narodenia'>
-					<input class='big_ipt from_top city' type='text' placeholder='Mesto/Obec'>
-					<input class='big_ipt from_top street' type='text' placeholder='Ulica'>
-					<input class='big_ipt from_top stt_num' type='text' placeholder='PSČ'>
+					<input class='big_ipt from_top card_id' type='text' placeholder='Id (10 cifier)' value=".$row["id_karty"].">
+					<input class='big_ipt from_top emp_nm' type='text' placeholder='Meno a priezvisko' value=".$row["meno"].">
+					<input class='big_ipt from_top date_of_bh' type='text' placeholder='Dátum narodenia' value=".$row["dt_of_bh"].">
+					<input class='big_ipt from_top city' type='text' placeholder='Mesto/Obec' value=".$row["mesto"].">
+					<input class='big_ipt from_top street' type='text' placeholder='Ulica' value=".$row["ulica"].">
+					<input class='big_ipt from_top stt_num' type='text' placeholder='PSČ' value=".$row["psc"].">
 				</div>
 
 				<div class='r_panel'>
 					<div class='from_top select'>
-						<button class='sh_exp_lt' value=-1>Pozícia</button>
+						<button class='sh_exp_lt' value=".$row["id_poz"].">".$row["nazov_poz"]."</button>
 						<button class='dd_btn sh_exp_mn'>+</button>
 						<div class='exp_lt'>
 							<div class='exp_scr_lt'>
@@ -26,14 +48,14 @@ echo "<div class='mn_ctn'>
 							</div>
 						</div>
 					</div>
-					<input class='big_ipt from_top salary' type='text' placeholder='EUR/hod'>
-					<input class='big_ipt from_top st_date' type='text' placeholder='Dátum nástupu'>
-					<input class='big_ipt from_top phone_num' type='text' placeholder='Tel.číslo (+421...)'>
-					<textarea class='add_info' placeholder='Poznámky'></textarea>
+					<input class='big_ipt from_top salary' type='text' placeholder='EUR/hod' value=".$row["plat"].">
+					<input class='big_ipt from_top st_date' type='text' placeholder='Dátum nástupu' value=".$row["st_date"].">
+					<input class='big_ipt from_top phone_num' type='text' placeholder='Tel.číslo (+421...)' value=".$row["tel_cislo"].">
+					<textarea class='add_info' placeholder='Poznámky'>".$row["poznamky"]."</textarea>
 				</div>
 			</div>
 			<div class='crt_emp_btns from_bottom'>
-				<button class='sml_btn crt_emp'>
+				<button class='sml_btn ud_emp' value=".$row["id"].">
 				<img class='sml_img' src='img/add_employee.png'>
 				</button>
 				
@@ -271,7 +293,6 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 		
-		set_shadow($('.sh_exp_lt'));
 		$('.select').on('mousedown',function(){
 			var input = $('.sh_exp_lt');
 			select_interval=setInterval(function(){

@@ -480,41 +480,41 @@ animation:fade_in 0.7s both;
 
 /*=========================CREATE_EMPLOYEE=========================*/
 
-.crt_emp{
+.crt_emp_mn{
 width:760px;
 height:600px;
 }
 
-.crt_emp input{
+.crt_emp_mn input{
 margin-left:20px;
 display:block;
 }
 
-#card_id{
+.card_id{
 margin-top:10px;
 }
 
-#salary:invalid{
+.salary:invalid{
 box-shadow:none;
 }
 
-#select, #card_id{
+.select, .card_id{
 animation-delay:0.35s
 }
 
-#emp_nm{
+.emp_nm{
 animation-delay:0.28s;
 }
 
-#date_of_bh{
+.date_of_bh{
 animation-delay:0.21s;
 }
 
-#salary{
+.salary{
 animation-delay:0.14s;
 }
 
-#st_date{
+.st_date{
 animation-delay:0.07s;
 }
 
@@ -537,7 +537,7 @@ margin:35px auto 0 auto;
 
 /*=========================SELECT_EXPERTISE=========================*/
 
-#select {
+.select {
 width:402px;
 height:50px;
 margin-top:10px;
@@ -547,7 +547,7 @@ display:flex;
 position:relative;
 }
 
-#sh_exp_lt{
+.sh_exp_lt{
 width:350px;
 height:50px;
 background:rgba(0,0,0,0.6);
@@ -557,7 +557,7 @@ text-indent:20px;
 transition:background 0.3s;
 }
 
-#sh_exp_lt:hover{
+.sh_exp_lt:hover{
 cursor:pointer;
 background:rgba(0,0,0,0.7);
 }
@@ -641,17 +641,17 @@ position:absolute;
 top:52px;
 width:350px;
 height:50px;
-#background:blue;
 overflow:hidden;
 z-index:-1;
 }
 
 .exp_sli_mn{
+width:350px;
 display:flex;
 top:-52px;
 }
 
-#new_exp{
+.exp_sli_mn input{
 width:298px;
 margin:0;
 }

@@ -21,8 +21,8 @@ echo "<div class='emp_lt_item'>
 	<div class='emp_lt_name emp_item_ele def_csr'><span>".$row["meno"]."</span></div>
 	<div class='emp_lt_date emp_item_ele def_csr'><span>".$row["formatted_date"]."</span></div>
 	<div class='emp_lt_exp emp_item_ele def_csr'><span>".$row["nazov"]."</span></div>
-	<button class='dd_btn'>i</button>
-	<button class='dd_btn'>~</button>
+	<button class='dd_btn sh_emp_add_inf' value=".$row["id"].">i</button>
+	<button class='dd_btn edit_emp' value=".$row["id"].">~</button>
 	<button class='dd_btn' id='rem__emp' value=".$row["id"].">‒</button>
      </div>";
 }
