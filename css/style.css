@@ -669,6 +669,7 @@ margin:0;
 width:1300px;
 height:650px;
 #background:red;
+position:relative;
 }
 
 .sch_panel{
@@ -785,6 +786,39 @@ width:320px;
 width:125px;
 height:125px;
 margin:30px auto 0 auto;
+}
+
+.emp_add_inf_mn{
+width:1300px;
+height:650px;
+background:rgba(0,0,0,0.9);
+position:absolute;
+top:0;
+left:0;
+display:block;
+opacity:0;
+z-index:-1;
+font-size:25px;
+}
+
+.add_inf_name{
+width:400px;
+height:50px;
+background:red;
+margin:20px auto 0 auto;
+}
+
+.add_inf_per, .add_inf_wk{
+width:1200px;
+height:200px;
+background:red;
+margin:40px auto 0 auto;
+}
+
+.add_inf_btns{
+width:50px;
+height:50px;
+margin:20px auto 0 auto;
 }
 
 /*=========================ATTENDANCE_MENU=========================*/

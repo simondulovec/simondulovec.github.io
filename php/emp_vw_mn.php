@@ -22,8 +22,12 @@ echo "<div class='mn_ctn'>
 				<img class='sml_img' src='img/back1.png'>
 				</button>
 			</div>
+		
+		<div class='emp_add_inf_mn'>
 		</div>
 
+		
+		</div>
 		<div class='pop_up'>
 			<div class='info'>
 
@@ -33,7 +37,7 @@ echo "<div class='mn_ctn'>
 				</div>
 			
 				<div class='info_btn'>
-					<button id='cfm_pp' class='mini_btn'>
+					<button class='cfm_pp' class='mini_btn'>
 						<img class='mini_img' src='img/confirm1.png'>
 					</button>
 				</div>
@@ -46,10 +50,10 @@ echo "<div class='mn_ctn'>
 				</div>
 
 				<div class='qtn_btns'>	
-					<button id='con_pp' class='mini_btn'>
+					<button class='mini_btn con_pp'>
 						<img class='mini_img' src=img/confirm1.png>
 					</button>
-					<button id='can_pp' class='mini_btn'>
+					<button class='mini_btn can_pp'>
 						<img class='mini_img' src='img/cancel.png'>
 					</button>
 				</div>

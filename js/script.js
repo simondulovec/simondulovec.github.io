@@ -5,6 +5,10 @@ var date_of_bh_ok=false;
 var salary_ok = false;
 var st_date_ok=false;
 var exp_ok=false;
+var city_ok = false;
+var street_ok = false;
+var stt_num_ok = false;
+var add_info_ok = true;
 
 var crt_exp_ok=false;
 var edt_exp_ok=true;
@@ -19,7 +23,7 @@ var emp_card_id="";
 
 $(document).ready(function(){
 
-	$("#app").load("php/app_mn.php");
+	$("#app").load("php/emp_vw_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -187,6 +191,10 @@ $(document).ready(function(){
 			var salary = parseInt($("#salary").val());
 			var st_date = $("#st_date").val();
 			var exp_id = $("#sh_exp_lt").val();
+			var city = $("#city").val();
+			var street = $("#street").val();
+			var stt_num = $("#stt_num").val();
+			var add_info = $("#add_info").val();
 
 			$.ajax({
 				method: "post",
@@ -194,7 +202,7 @@ $(document).ready(function(){
 				url: "php/ins_new_emp.php",
 				data: {card_id:card_id, emp_nm:emp_nm, 
 					date_of_bh:date_of_bh, salary:salary, 
-					st_date:st_date,exp_id:exp_id},
+					st_date:st_date,exp_id:exp_id, city:city, street:street, stt_num:stt_num, add_info:add_info},
 				success: function(data){
 					if (data.state==false){
 						show_info("Karta sa v systéme už nachádza!");
@@ -271,7 +279,7 @@ $(document).ready(function(){
 	$(document).on("mousedown",".rem_exp",function(){
 		var exp_id = $(this).val();
 		show_question("Naozaj chcete pozíciu odstŕaniť?");
-		$(document).on("mousedown","#con_pp",function(){
+		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
 			
 			if (exp_id== $("#sh_exp_lt").val()){
@@ -350,7 +358,7 @@ $(document).ready(function(){
 
 	/*=========================POP_UP_CONFIRM=========================*/
 
-	$(document).on("mousedown","#cfm_pp",function(){
+	$(document).on("mousedown",".cfm_pp",function(){
 		hide_info();
 		$(".mn_ctn").css("background","rgba(0,0,0,0)");
 		$("main").on("mousedown",function(e){
@@ -359,7 +367,7 @@ $(document).ready(function(){
 		$(".ctd *").css("pointer-events", "auto");
 	});
 
-	$(document).on("mousedown","#can_pp",function(){
+	$(document).on("mousedown",".can_pp",function(){
 		hide_question();
 		$(".mn_ctn").css("background","rgba(0,0,0,0)");
 		$("main").on("mousedown",function(e){
@@ -389,7 +397,7 @@ $(document).ready(function(){
 	$(document).on("mousedown",".rem_emp",function(){
 		var emp_id = $(this).val();
 		show_question("Odstrániť zamestnanca?");
-		$(document).on("mousedown","#con_pp",function(){
+		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
 			$.ajax({
 				method:"post",
@@ -402,6 +410,18 @@ $(document).ready(function(){
 			});
 		});
 	});
+
+	$(document).on("mousedown",".sh_emp_add_inf",function(){
+		var emp_id = $(this).val();
+		$(".emp_add_inf_mn").load("php/ld_emp_inf.php",{emp_id:emp_id},function(){
+		show_emp_add_inf();
+		});
+	});
+
+	$(document).on("mousedown",".can_add_inf",function(){
+		hide_emp_add_inf();
+	});
+
 
 	/*=========================ATTENDANCE_VIEW_MENU==========================*/
 
@@ -457,7 +477,7 @@ $(document).ready(function(){
 	$(document).on("mousedown",".rem_atd",function(){
 		var atd_id = $(this).val();
 		show_question("Naozaj chcete položku ostrániť?");
-		$(document).on("mousedown","#con_pp",function(){
+		$(document).on("mousedown",".con_pp",function(){
 			$.ajax({
 				method: "post",
 				url: "php/del_atd.php",
@@ -504,9 +524,7 @@ function anim_adm_mn(){
 	$('#emp_vw_mn').delay(200).animate({left:"-=1000px"},600);
 	$('#emp_atd_mn').delay(200).animate({left:"+=1000px"},600);
 	$('#calc').animate({left:"+=1000px"},600);
-
 }
-
 
 /*=======================POP_UP_FUNCTIONS=========================*/
 
@@ -546,7 +564,7 @@ function bind_crt_emp(e){
 
 	if (edt_exp_dpd==true){
 		if(!$target.is(".exp_chg")){
-			if(!$target.is("#cfm_pp")){
+			if(!$target.is(".cfm_pp")){
 				if(!$target.is(".cfm_edt_exp")){
 				hide_edit_exp();
 				show_exp_info();
@@ -628,7 +646,6 @@ function hide_exp_info(par){
 function show_edit_exp(par){
 	par.parent().find(".edit_exp").animate({opacity:1},{queue:false, duration:300});
 	par.parent().find(".edit_exp").css("z-index","1");
-
 }
 
 function show_edit_atd(parent_item){
@@ -674,12 +691,12 @@ function show_exp_lt(){
 }
 
 function show_salary(){
-	$("#salary").animate({opacity:1},200);
+	$("#salary").animate({opacity:1},{queue:false, duration:200});
 	$("#salary").css("z-index","0");
 }
 
 function hide_salary(){
-	$("#salary").animate({opacity:0},200);
+	$("#salary").animate({opacity:0},{queue:false, duration:200});
 	$("#salary").css("z-index","-1");
 }
 
@@ -763,7 +780,6 @@ function set_shadow(ele){
 
 function remove_shadow(ele){$("#show_hide_expertise_list").val(-1);
 	$("#show_hide_expertise_list").text("Pozícia");
-
 	ele.css('-moz-box-shadow', 'none');
 	ele.css('-webkit-box-shadow', 'none');
 	ele.css('box-shadow', 'none');
@@ -772,6 +788,18 @@ function remove_shadow(ele){$("#show_hide_expertise_list").val(-1);
 function res_sh_exp_lt(){
 	$("#sh_exp_lt").val(-1);
 	$("#sh_exp_lt").text("Pozícia");
+}
+
+/*=========================EMPLOYEE_VIEW============================*/
+
+function show_emp_add_inf(){
+	$(".emp_add_inf_mn").animate({opacity:1},200);
+	$(".emp_add_inf_mn").css("z-index",1);
+}
+
+function hide_emp_add_inf(){
+	$(".emp_add_inf_mn").animate({opacity:0},200);
+	$(".emp_add_inf_mn").css("z-index",-1);
 }
 
 /*==========REAL_TIME_INPUT_VALUE_CHECKING==========*/
@@ -805,7 +833,7 @@ function chk_date_num(date_str){
 }
 
 function chk_crt_emp_ipts(){
-	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && st_date_ok && exp_ok){
+	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && st_date_ok && exp_ok && city_ok && street_ok && stt_num_ok && add_info_ok){
 		return true;
 	}
 	return false;
@@ -823,7 +851,7 @@ function chk_exp(){
 }
 
 function chk_edt_exp(){
-	var ess=/^[a-z0-9]+$/;
+	var ess=/^[a-z0-9]{1,20}$/;
 	var val=$(".exp_chg").val();
 
 	if (val.match(ess)){
@@ -838,7 +866,7 @@ function chk_edt_exp(){
 }
 
 function chk_new_exp(){
-	var ess=/^[a-z0-9]+$/;
+	var ess=/^[a-z0-9]{1,20}$/;
 	var val=$("#new_exp").val();
 
 	if (val.match(ess)){
@@ -865,7 +893,7 @@ function chk_card_id(){
 }
 
 function chk_emp_nm(){
-	var ess=/^[a-zA-ZÀ-Ž\s]+$/;
+	var ess=/^[a-zA-ZÀ-Ž\s]{1,30}$/;
 	var val=$("#emp_nm").val();
 	if (val.match(ess)){
 		//checking for name starting with space
@@ -932,6 +960,68 @@ function chk_st_date(){
 	}
 	return false;
 }
+
+function chk_city(){
+	var ess=/^[a-zA-ZÀ-Ž\s]{1,30}$/;
+	var val=$("#city").val();
+	if (val.match(ess)){
+		//checking for city starting with space
+		if (val[0]!=' '){
+			city_ok=true;
+			return true;
+		}
+	}
+	else {
+		city_ok=false;
+	}
+	return false;	
+}
+
+function chk_street(){
+	var ess=/^[0-9a-zA-ZÀ-Ž\s\.\/\\\-]{1,30}$/;
+	var val=$("#street").val();
+	if (val.match(ess)){
+		//checking for street starting with space
+		if (val[0]!=' '){
+			street_ok=true;
+			return true;
+		}
+	}
+	else {
+		street_ok=false;
+	}
+	return false;	
+}
+
+function chk_stt_num(){
+	var ess=/^\d{5}$/;
+	var val=$("#stt_num").val();
+	if (val.match(ess)){
+		//checking for street starting with space
+		stt_num_ok=true;
+		return true;
+	}
+	else {
+		stt_num_ok=false;
+	}
+	return false;	
+}
+
+function chk_add_info(){
+	var ess=/^[.\S\s]{1,255}$/;
+	var val=$("#add_info").val();
+	if (val.match(ess)){
+		//checking for street starting with space
+		add_info_ok=true;
+		return true;
+	}
+	else {
+		add_info_ok=false;
+	}
+	return false;	
+}
+
+
 
 /*=========================CRUD_FUNCTIONS_DATABASE=======================*/
 

@@ -57,7 +57,7 @@ echo "<div class='mn_ctn'>
 			</div>
 			
 			<div class='info_btn'>
-				<button id='cfm_pp' class='mini_btn'>
+				<button class='mini_btn cfm_pp'>
 					<img class='mini_img' src='img/confirm1.png'>
 				</button>
 			</div>
@@ -70,10 +70,10 @@ echo "<div class='mn_ctn'>
 			</div>
 
 			<div class='qtn_btns'>	
-				<button class='mini_btn' id='con_pp'>
+				<button class='mini_btn con_pp'>
 					<img class='mini_img' src=img/confirm1.png>
 				</button>
-				<button class='mini_btn' id='can_pp'>
+				<button class='mini_btn can_pp'>
 					<img class='mini_img' src='img/cancel.png'>
 				</button>
 			</div>
@@ -83,6 +83,71 @@ echo "<div class='mn_ctn'>
       </div>
 
 	<script>
+		$(document).on('mousedown','#city',function(){
+			var input = $('#city');
+			setInterval(function(){
+				if (chk_city()==false){
+					if (input.val().length > 0){
+						set_shadow(input);
+					}	
+					else{
+					remove_shadow(input);
+					}
+				}else{
+					remove_shadow(input);
+				}
+			},100);
+		});
+
+		$(document).on('mousedown','#street',function(){
+			var input = $('#street');
+			setInterval(function(){
+				if (chk_street()==false){
+					if (input.val().length > 0){
+						set_shadow(input);
+					}	
+					else{
+					remove_shadow(input);
+					}
+				}else{
+					remove_shadow(input);
+				}
+			},100);
+		});
+
+		$(document).on('mousedown','#stt_num',function(){
+			var input = $('#stt_num');
+			setInterval(function(){
+				if (chk_stt_num()==false){
+					if (input.val().length > 0){
+						set_shadow(input);
+					}	
+					else{
+					remove_shadow(input);
+					}
+				}else{
+					remove_shadow(input);
+				}
+			},100);
+		});
+
+		$(document).on('mousedown','#add_info',function(){
+			var input = $('#add_info');
+			setInterval(function(){
+				if (chk_add_info()==false){
+					if (input.val().length > 0){
+						set_shadow(input);
+					}	
+					else{
+					remove_shadow(input);
+					}
+				}else{
+					remove_shadow(input);
+				}
+			},100);
+		});
+
+
 		$('#card_id').mousedown(function(){
 			var input = $('#card_id');
 			setInterval(function(){

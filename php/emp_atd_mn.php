@@ -31,7 +31,7 @@ echo "<div class='mn_ctn'>
 				</div>
 			</div>
 			<div class='info_btn'>
-				<button id='cfm_pp' class='mini_btn'>
+				<button class='mini_btn cfm_pp'>
 					<img class='mini_img' src='img/confirm1.png'>
 				</button>
 			</div>
@@ -42,10 +42,10 @@ echo "<div class='mn_ctn'>
 				</div>
 			</div>
 			<div class='qtn_btns'>	
-				<button id='con_pp' class='mini_btn'>
+				<button class='mini_btn con_pp'>
 					<img class='mini_img' src=img/confirm1.png>
 				</button>
-				<button id='can_pp' class='mini_btn'>
+				<button class='mini_btn can_pp'>
 					<img class='mini_img' src='img/cancel.png'>
 				</button>
 			</div>
