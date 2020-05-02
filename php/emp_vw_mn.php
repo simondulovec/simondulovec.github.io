@@ -37,7 +37,7 @@ echo "<div class='mn_ctn'>
 				</div>
 			
 				<div class='info_btn'>
-					<button class='cfm_pp' class='mini_btn'>
+					<button class='mini_btn cfm_pp'>
 						<img class='mini_img' src='img/confirm1.png'>
 					</button>
 				</div>

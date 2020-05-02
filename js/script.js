@@ -9,6 +9,7 @@ var city_ok = false;
 var street_ok = false;
 var stt_num_ok = false;
 var add_info_ok = true;
+var phone_num_ok = false;
 
 var crt_exp_ok=false;
 var edt_exp_ok=true;
@@ -23,7 +24,7 @@ var emp_card_id="";
 
 $(document).ready(function(){
 
-	$("#app").load("php/emp_vw_mn.php");
+	$("#app").load("php/crt_emp.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -194,6 +195,7 @@ $(document).ready(function(){
 			var city = $("#city").val();
 			var street = $("#street").val();
 			var stt_num = $("#stt_num").val();
+			var phone_num = $("#phone_num").val();
 			var add_info = $("#add_info").val();
 
 			$.ajax({
@@ -202,7 +204,8 @@ $(document).ready(function(){
 				url: "php/ins_new_emp.php",
 				data: {card_id:card_id, emp_nm:emp_nm, 
 					date_of_bh:date_of_bh, salary:salary, 
-					st_date:st_date,exp_id:exp_id, city:city, street:street, stt_num:stt_num, add_info:add_info},
+					st_date:st_date,exp_id:exp_id, city:city, 
+					street:street, stt_num:stt_num, add_info:add_info,phone_num:phone_num},
 				success: function(data){
 					if (data.state==false){
 						show_info("Karta sa v systéme už nachádza!");
@@ -795,11 +798,24 @@ function res_sh_exp_lt(){
 function show_emp_add_inf(){
 	$(".emp_add_inf_mn").animate({opacity:1},200);
 	$(".emp_add_inf_mn").css("z-index",1);
+	$(".sch_panel").css("opacity",0);
+	$(".des_panel").css("opacity",0);
+	$(".emp_scr_lt").css("opacity",0);
+	$(".emp_vw_btns").css("opacity",0);
+
+
 }
 
 function hide_emp_add_inf(){
 	$(".emp_add_inf_mn").animate({opacity:0},200);
 	$(".emp_add_inf_mn").css("z-index",-1);
+	$(".sch_panel").css("opacity",1);
+	$(".des_panel").css("opacity",1);
+	$(".emp_scr_lt").css("opacity",1);
+	$(".emp_vw_btns").css("opacity",1);
+
+
+
 }
 
 /*==========REAL_TIME_INPUT_VALUE_CHECKING==========*/
@@ -833,7 +849,7 @@ function chk_date_num(date_str){
 }
 
 function chk_crt_emp_ipts(){
-	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && st_date_ok && exp_ok && city_ok && street_ok && stt_num_ok && add_info_ok){
+	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && st_date_ok && exp_ok && city_ok && street_ok && stt_num_ok && add_info_ok,phone_num_ok){
 		return true;
 	}
 	return false;
@@ -978,7 +994,7 @@ function chk_city(){
 }
 
 function chk_street(){
-	var ess=/^[0-9a-zA-ZÀ-Ž\s\.\/\\\-]{1,30}$/;
+	var ess=/^[0-9a-zA-ZÀ-Ž\s\.\/\\\-\,]{1,30}$/;
 	var val=$("#street").val();
 	if (val.match(ess)){
 		//checking for street starting with space
@@ -997,7 +1013,6 @@ function chk_stt_num(){
 	var ess=/^\d{5}$/;
 	var val=$("#stt_num").val();
 	if (val.match(ess)){
-		//checking for street starting with space
 		stt_num_ok=true;
 		return true;
 	}
@@ -1011,7 +1026,6 @@ function chk_add_info(){
 	var ess=/^[.\S\s]{1,255}$/;
 	var val=$("#add_info").val();
 	if (val.match(ess)){
-		//checking for street starting with space
 		add_info_ok=true;
 		return true;
 	}
@@ -1020,6 +1034,23 @@ function chk_add_info(){
 	}
 	return false;	
 }
+
+function chk_phone_num(){
+	var ess=/^\+[0-9]{12}$/;
+	var val=$("#phone_num").val();
+	if (val.match(ess)){
+		if (val[0]!=' '){
+		phone_num_ok=true;
+		return true;
+	}
+	
+	}
+	else {
+		phone_num_ok=false;
+	}
+	return false;	
+}
+
 
 
 

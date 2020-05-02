@@ -1,43 +1,37 @@
 <?php
 echo "<div class='mn_ctn'>
 		<div class='ctd crt_emp'>	
-			<div  class='id_expertise'>		
-				<input class='big_ipt from_top' id='card_id' type='text' placeholder='Id (10 cifier)'>
-				<div class='from_top' id='select'>
-					<button id='sh_exp_lt' value=-1>Pozícia</button>
-					<button class='dd_btn' id='sh_exp_mn'>+</button>
-					<div class='exp_lt'>
-						<div class='exp_scr_lt'>
+			<div class='l_r_panel'>
+				<div class=l_panel>		
+					<input class='big_ipt from_top' id='card_id' type='text' placeholder='Id (10 cifier)'>
+					<input class='big_ipt from_top' id='emp_nm' type='text' placeholder='Meno a priezvisko'>	 
+					<input class='big_ipt from_top' id='date_of_bh' type='text' placeholder='Dátum narodenia'>
+					<input class='big_ipt from_top' id='city' type='text' placeholder='Mesto/Obec'>
+					<input class='big_ipt from_top' id='street' type='text' placeholder='Ulica'>
+					<input class='big_ipt from_top' id='stt_num' type='text' placeholder='PSČ'>
+				</div>
+
+				<div class='r_panel'>
+					<div class='from_top' id='select'>
+						<button id='sh_exp_lt' value=-1>Pozícia</button>
+						<button class='dd_btn' id='sh_exp_mn'>+</button>
+						<div class='exp_lt'>
+							<div class='exp_scr_lt'>
+							</div>
+						</div>
+						<div class='exp_mn'>
+							<div class='exp_sli_mn'>
+								<input class='big_ipt' id='new_exp' type='text' placeholder='Pozícia (bez diakritiky)'>
+								<button class='dd_btn' id='crt_exp'>+</button>
+							</div>
 						</div>
 					</div>
-					<div class='exp_mn'>
-						<div class='exp_sli_mn'>
-							<input class='big_ipt' id='new_exp' type='text' placeholder='Pozícia (bez diakritiky)'>
-							<button class='dd_btn' id='crt_exp'>+</button>
-						</div>
-					</div>
+					<input class='big_ipt from_top' id='salary' type='text' placeholder='EUR/hod'>
+					<input class='big_ipt from_top' id='st_date' type='text' placeholder='Dátum nástupu'>
+					<input class='big_ipt from_top' id='phone_num' type='text' placeholder='Tel.číslo (+421...)'>
+					<textarea id='add_info' placeholder='Poznámky'></textarea>
 				</div>
 			</div>
-			<div class='per_wk_info'>
-			<div class='per_info'>
-			<input class='big_ipt from_top' id='emp_nm' type='text' placeholder='Meno a priezvisko'>	 
-			<input class='big_ipt from_top' id='date_of_bh' type='text' placeholder='Dátum narodenia'>
-			</div>
-			<div class='wk_info'>
-  			<input class='big_ipt from_top' id='salary' type='text' placeholder='EUR/hod'>
-			<input class='big_ipt from_top' id='st_date' type='text' placeholder='Dátum nástupu'>
-			</div>
-			</div>	
-
-			<div class='addr_add_info'>
-			<div class='addr'>	
-			<input class='big_ipt from_top' id='city' type='text' placeholder='Mesto/Obec'>
-			<input class='big_ipt from_top' id='street' type='text' placeholder='Ulica'>
-			<input class='big_ipt from_top' id='stt_num' type='text' placeholder='PSČ'>
-			</div>
-			<textarea id='add_info' placeholder='Poznámky'></textarea>
-			</div>	
-
 			<div class='crt_emp_btns from_bottom'>
 				<button class='sml_btn' id='crt_emp'>
 				<img class='sml_img' src='img/add_employee.png'>
@@ -146,6 +140,23 @@ echo "<div class='mn_ctn'>
 				}
 			},100);
 		});
+
+		$(document).on('mousedown','#phone_num',function(){
+			var input = $('#phone_num');
+			setInterval(function(){
+				if (chk_phone_num()==false){
+					if (input.val().length > 0){
+						set_shadow(input);
+					}	
+					else{
+					remove_shadow(input);
+					}
+				}else{
+					remove_shadow(input);
+				}
+			},100);
+		});
+
 
 
 		$('#card_id').mousedown(function(){
