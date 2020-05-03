@@ -275,6 +275,33 @@ margin-left:auto;
 margin-right:auto;
 }
 
+.loading{
+opacity:0;
+width:100px;
+height:100px;
+position:absolute;
+top:20px;
+left:20px;
+z-index:-2:
+}
+
+.loading img{
+animation: spin 0.9s linear infinite;
+}
+
+.big_ipt:-ms-input-placeholder{
+opacity:1;
+}
+
+.big_ipt::-webkit-input-placeholder{
+opacity:1;
+}
+
+.big_ipt::-ms-input-placeholder{
+opacity:1;
+}
+
+
 /*=========================ELEMENTS=========================*/
 
 .ctd{
@@ -315,6 +342,19 @@ resize:none;
 padding:10px 20px 10px 20px;
 font-size:20px;
 }
+
+.big_ipt:-ms-input-placeholder{
+opacity:1;
+}
+
+.big_ipt::-webkit-input-placeholder{
+opacity:1;
+}
+
+.big_ipt::-ms-input-placeholder{
+opacity:1;
+}
+
 
 textarea:focus{
 background:rgba(0,0,0,0.7);
@@ -411,6 +451,8 @@ animation:from_bottom 0.6s backwards;
 0% { opacity:0;}
 100% {opacity:1;}
 }
+
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
 /*=========================MENU=======================*/
 

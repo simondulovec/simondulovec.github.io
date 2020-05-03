@@ -28,12 +28,19 @@ $result=$conn->query($sql);
 
 if ($result->num_rows > 0){
 
-while($row=$result->fetch_assoc()){
+	while($row=$result->fetch_assoc()){
+		$check_out = "Nezaregistrovaný";
+		if ($row["timr"]==""){
+			$row["time"]="Prázdne";
+		}if ($row["check_out_time"]!=""){
+		$check_out=convert_day('check_out_day',$row).", ".$row['check_out_date']." ".$row['check_out_time'];
+	}
+
 echo "<div class='atd_lt_item'>	      
 	<div class='atd_info'>
 			<div class='atd_lt_name atd_item_ele def_csr'><span>".$row["meno"]."</span></div>
 			<div class='atd_lt_check_in atd_item_ele deft_csr'><span>".convert_day("check_in_day",$row).", ".$row["check_in_date"]." ".$row["check_in_time"]."</span></div>
-			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".convert_day("check_out_day",$row).", ".$row["check_out_date"]." ".$row["check_out_time"]."</span></div>
+			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".$check_out."</span></div>
 			<div class='atd_lt_time atd_item_ele def_csr'><span>".$row["time"]."</span></div>
 			<button class='dd_btn edit_atd' value=".$row["id"].">~</button>
 			<button class='dd_btn rem_atd' value=".$row["id"].">‒</button>

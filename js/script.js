@@ -34,6 +34,7 @@ $(document).ready(function(){
 		$("#lgn_mn_btn").animate({left:"+=1000px"},600);
 		$("#usr_mn_btn").animate({left:"-=1000px"},600);
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/lgn_mn.php");
 		},400);
 	});
@@ -42,6 +43,7 @@ $(document).ready(function(){
 		$("#usr_mn_btn").animate({left:"-=1000px"},600);
 		$("#lgn_mn_btn").animate({left:"+=1000px"},600);
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/usr_mn.php");
 		},400);
 	});
@@ -54,6 +56,7 @@ $(document).ready(function(){
 		if (name=="admin" && password=="12345"){
 			anim_log_in_e();	
 			setTimeout(function(){
+				$("#app").empty();
 				$("#app").load("php/admin_mn.php");
 			},600);
 		}
@@ -69,6 +72,7 @@ $(document).ready(function(){
 	$(document).on("mousedown","#bk_lgn_mn",function(){
 		anim_log_in_e();
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/app_mn.php");
 		},600);	
 	});
@@ -82,6 +86,7 @@ $(document).ready(function(){
 		$("#date").animate({bottom:"+=700px"},600);
 
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/app_mn.php");
 		},700);	
 	});
@@ -89,8 +94,10 @@ $(document).ready(function(){
 	$(document).on("mousedown","#check_in",function(){
 		if (emp_card_id==""){
 			show_info("Priložte kartu!");
-		}
-		else{
+		}else if ($(".name_pn").html()=="Nezaregistrovaná karta!"){
+			show_info("Nezaregistrovaná karta!");
+		}else{
+			show_loading();
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -103,7 +110,8 @@ $(document).ready(function(){
 						show_info("Príchod zaregistrovaný!");
 						$('.check_in_pn').text("Príchod: " + get_curr_time());
 					}
-				}
+				},
+				complete: hide_loading
 			});
 		}
 	});
@@ -111,8 +119,11 @@ $(document).ready(function(){
 	$(document).on("mousedown","#check_out",function(){
 		if (emp_card_id==""){
 			show_info("Priložte kartu!");
+		}else if ($(".name_pn").html()=="Nezaregistrovaná karta!"){
+			show_info("Nezaregistrovaná karta!");
 		}
 		else{
+			show_loading();
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -125,7 +136,8 @@ $(document).ready(function(){
 						show_info("Odchod zaregistrovaný!");
 						$('.check_in_pn').text("Príchod: nezaregistrovaný");
 					}
-				}
+				},
+				complete: hide_loading
 			});
 		}
 	});
@@ -135,6 +147,7 @@ $(document).ready(function(){
 	$(document).on("mousedown","#add_emp",function(){
 		anim_adm_mn();
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/crt_emp.php",function(){
 				ld_exp();
 			});
@@ -144,6 +157,7 @@ $(document).ready(function(){
 	$(document).on("mousedown","#emp_vw_mn",function(){
 		anim_adm_mn();
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/emp_vw_mn.php",function(){
 				//loading employee data from database
 				ld_emp();
@@ -154,6 +168,7 @@ $(document).ready(function(){
 	$(document).on("mousedown","#emp_atd_mn",function(){
 		anim_adm_mn();	
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/emp_atd_mn.php",function(){
 				ld_atd();
 			});
@@ -163,6 +178,7 @@ $(document).ready(function(){
 	$(document).on("mousedown","#calc",function(){
 		anim_adm_mn();
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/calc_mn.php",function(){
 			});		
 		},500);
@@ -172,6 +188,7 @@ $(document).ready(function(){
 
 	$(document).on("mousedown","#home",function(){
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/app_mn.php");
 		},300);
 	});	
@@ -191,6 +208,7 @@ $(document).ready(function(){
 		$(".stt_num").delay(350).animate({bottom:"+=800px"},600);
 
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/admin_mn.php",function(){
 			});
 		},650);
@@ -270,6 +288,7 @@ $(document).ready(function(){
 	$(document).on("mousedown",".crt_exp",function(){
 		if(crt_exp_ok==true){
 			var expertise = $(".new_exp").val();
+			show_loading();
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -283,7 +302,9 @@ $(document).ready(function(){
 						$(".new_exp").val("");
 						show_info("Pozícia vyrvorená!");
 					}
-				}
+				},
+
+				complete: hide_loading
 			});
 		}
 		else{
@@ -301,7 +322,7 @@ $(document).ready(function(){
 				$(".sh_exp_lt").val(-1);
 				$(".sh_exp_lt").html("Pozícia");
 			}
-
+			show_loading();
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -325,6 +346,7 @@ $(document).ready(function(){
 								show_salary();
 							}
 						}
+					hide_loading();
 					}
 			});
 		});	
@@ -349,7 +371,8 @@ $(document).ready(function(){
 		if (edt_exp_ok==true){
 		var exp_id = $(this).val();
 		var exp_chg = $(this).parent().find(".exp_chg").val();
-
+		
+		show_loading();
 		$.ajax({
 			method: "post",
 			url: "php/ud_exp.php",
@@ -361,7 +384,8 @@ $(document).ready(function(){
 				if(exp_id==$(".sh_exp_lt").val()){
 					$(".sh_exp_lt").html(exp_chg);
 				}
-			}
+			},
+			complete: hide_loading
 
 		});
 			}else{
@@ -398,6 +422,7 @@ $(document).ready(function(){
 		$(".emp_vw_btns").animate({bottom:"-=800px"},600);
 
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/admin_mn.php");
 		},500);
 	});
@@ -425,9 +450,12 @@ $(document).ready(function(){
 	});
 
 	$(document).on("mousedown",".sh_emp_add_inf",function(){
+		show_loading();
 		var emp_id = $(this).val();
+		$(".emp_add_inf_mn").empty();
 		$(".emp_add_inf_mn").load("php/ld_emp_inf.php",{emp_id:emp_id},function(){
 		show_emp_add_inf();
+		hide_loading();
 		});
 	});
 
@@ -436,14 +464,20 @@ $(document).ready(function(){
 	});
 
 	$(document).on("mousedown",".edit_emp",function(){
+		$(".sch_panel").animate({bottom:"+=800px"},600);
+		$(".des_panel").delay(100).animate({bottom:"+=800px"},600);
+		$(".emp_scr_lt").delay(100).fadeOut();
+		$(".emp_vw_btns").animate({bottom:"-=800px"},600);
+
 		var emp_id = $(this).val();
 		set_ud_emp();
 		setTimeout(function(){
 			//var emp_id = $(this).val();
+			$("#app").empty();
 			$("#app").load("php/edit_emp.php",{emp_id:emp_id},function(){
 				ld_exp();
 			});
-		});
+		},300);
 	});
 
 	/*========================EMPLOYEE_EDIT_MENU=======================*/
@@ -463,6 +497,8 @@ $(document).ready(function(){
 			var add_info = $(".add_info").val();
 			var emp_id = $(this).val();
 
+			show_loading();
+
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -480,7 +516,8 @@ $(document).ready(function(){
 					}else{
 						show_info("Zamestnanec upravený!");
 					}
-				}
+				},
+				complete: hide_loading
 			});
 		}
 		else{
@@ -503,6 +540,7 @@ $(document).ready(function(){
 		$(".stt_num").delay(350).animate({bottom:"+=800px"},600);
 
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/emp_vw_mn.php",function(){
 				ld_emp();
 			});
@@ -535,6 +573,8 @@ $(document).ready(function(){
 			var check_in = parent_item.find(".check_in_ipt").val();
 			var check_out = parent_item.find(".check_out_ipt").val();
 
+			show_loading();
+
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -550,7 +590,8 @@ $(document).ready(function(){
 						show_atd_lt_item();
 						show_info("Žiadne zmeny!");
 					}
-				}
+				},
+				complete: hide_loading
 			});
 
 			setTimeout(function(){
@@ -568,14 +609,25 @@ $(document).ready(function(){
 		var atd_id = $(this).val();
 		show_question("Naozaj chcete dochádzku odstrániť?");
 		$(document).on("mousedown",".con_pp",function(){
+			show_loading();
 			$.ajax({
 				method: "post",
+				dataType: "json",
 				url: "php/del_atd.php",
 				data: {atd_id:atd_id},
-				success: function(){
-					ld_atd();
-					hide_question();
-					show_info("Dochádzka odstránená!");
+				success: function(data){
+					if (data.state=="error"){
+						hide_question();
+						show_info("Dochádzka sa nedá odstrániť!");
+					}else{
+						ld_atd();
+						hide_question();
+						show_info("Dochádzka odstránená!");
+					}
+				},
+
+				complete:function(){
+					hide_loading();
 				}
 			});
 		});
@@ -588,6 +640,7 @@ $(document).ready(function(){
 		$(".emp_atd_btns").animate({bottom:"-=800px"},600);
 
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/admin_mn.php");
 		},500);
 	});
@@ -599,7 +652,11 @@ $(document).ready(function(){
 		var data = calc_data[0];
 		var from = calc_data[1];
 		var to = calc_data[2];
-		$(".result").load("php/ld_calc.php",{data:data, from:from, to:to});	
+		$(".result").empty();
+		show_loading();
+		$(".result").load("php/ld_calc.php",{data:data, from:from, to:to},function(){
+			hide_loading();
+		});	
 	});
 
 	$(document).on("mousedown","#bk_calc_mn",function(){
@@ -609,6 +666,7 @@ $(document).ready(function(){
 
 
 		setTimeout(function(){
+			$("#app").empty();
 			$("#app").load("php/admin_mn.php");
 		},300);
 	});
@@ -690,9 +748,9 @@ function bind_crt_emp(e){
 		if (!$target.is(".edt_atd")){
 			if (!$target.is(".check_in_ipt")){
 				if (!$target.is(".check_out_ipt")){
-					if($target.is('.cfm_edit_atd') && edt_atd_ok){
-					hide_edit_atd();
-					show_atd_lt_item();
+					if(!$target.is('.cfm_edit_atd') && edt_atd_ok){
+						hide_edit_atd();
+						show_atd_lt_item();
 					}
 				}
 			}
@@ -705,6 +763,7 @@ function show_info(message){
 	$(".info").css('display','block');
 	$(".pp_msg").text(message);
 	$(".mn_ctn").css("background","rgba(0,0,0,0.5)");
+	$(".ctd").css("opacity","0.7");
 	$("main").off();
 	$(".ctd *").css("pointer-events", "none");
 }
@@ -714,18 +773,37 @@ function show_question(message){
 	$(".question").css('display','block');
 	$(".pp_msg").text(message);
 	$(".mn_ctn").css("background","rgba(0,0,0,0.5)");
+	$(".ctd").css("opacity","0.7");
 	$("main").off();
 	$(".ctd *").css("pointer-events", "none");
 }
 
+function show_loading(){
+	$(".loading").css('opacity','1');
+	$("main").off();
+	$(".ctd *").css("pointer-events", "none");
+}
+
+function hide_loading(){
+	$(".loading").css('opacity','0');
+		$("main").on("mousedown",function(e){
+			bind_crt_emp(e);
+	});
+	$(".ctd *").css("pointer-events", "auto");	
+}
+
+
 function hide_info(){
 	$(".pop_up").css('display','none');
 	$(".info").css('display','none');
+	$(".ctd").css("opacity","1");
 }
 
 function hide_question(){
 	$(".pop_up").css('display','none');
 	$(".question").css('display','none');
+	$(".ctd").css("opacity","1");
+
 }
 
 /*========================UPDATE_EMP_FUNCTIONS=======================*/
@@ -1203,40 +1281,59 @@ function chk_phone_num(){
 /*=========================CRUD_FUNCTIONS_DATABASE=======================*/
 
 function ld_emp_nm(){
+	show_loading();
 	var usr_id = $("#usr_id").val();
-	$('#usr_nm').load("php/ld_emp_nm.php",{usr_id:usr_id});
+	$("#usr_nm").empty();
+	$('#usr_nm').load("php/ld_emp_nm.php",{usr_id:usr_id},function(){
+		hide_loading();
+	});
 }
 
 function ld_emp(){
+	show_loading();
+	$(".emp_scr_lt").empty();
 	$(".emp_scr_lt").load("php/ld_emp.php",function(){
 		check_emp_num();
+		hide_loading();
 	});
 }
 
 function ld_atd(){
+	show_loading()
+	$("#atd_scr_lt").empty();
 	$(".atd_scr_lt").load("php/ld_atd.php",function(){
 		check_atd_num();
+		hide_loading();
 	});
 }
 
 function ld_exp(){
 	//loading expertise data from database
+	show_loading();
+	$(".exp_scr_lt").empty();
 	$(".exp_scr_lt").load("php/ld_exp.php",function(){
-		check_exp_num();		
+		check_exp_num();
+		hide_loading();
 	});
 }
 
 function sch_emp(){
+	show_loading();
 	var sch_data = $("#emp_data").val();
+	$(".emp_scr_lt").empty();
 	$(".emp_scr_lt").load("php/sch_emp.php",{sch_data:sch_data},function(){
 		check_emp_num();
+		hide_loading();
 	});
 }
 
 function sch_atd(){
+	show_loading();
 	var sch_data = $("#atd_data").val();
+	$(".atd_scr_lt").empty();
 	$(".atd_scr_lt").load("php/sch_atd.php",{sch_data:sch_data},function(){
 		check_atd_num();
+		hide_loading();
 	});
 }
 

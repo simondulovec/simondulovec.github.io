@@ -51,6 +51,9 @@ echo "<div class='mn_ctn'>
 			</div>
 		</div>
 	</div>
+		<div class='loading'>
+			<img class='mini_img' src='img/loading.png'>
+		</div>
       </div>
 
 	<script>
