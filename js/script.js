@@ -26,7 +26,7 @@ var emp_card_id="";
 
 $(document).ready(function(){
 
-	$("#app").load("php/calc_mn.php");
+	$("#app").load("php/app_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
