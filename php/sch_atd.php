@@ -36,7 +36,7 @@ echo "<div class='atd_lt_item'>
 			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".convert_day("check_out_day",$row).", ".$row["check_out_date"]." ".$row["check_out_time"]."</span></div>
 			<div class='atd_lt_time atd_item_ele def_csr'><span>".$row["time"]."</span></div>
 			<button class='dd_btn edit_atd' value=".$row["id"].">~</button>
-			<button class='dd_btn rem_atd' value=".$row["id"].">-</button>
+			<button class='dd_btn rem_atd' value=".$row["id"].">‒</button>
 
 		</div>
 

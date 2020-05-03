@@ -19,7 +19,7 @@ echo "<div class='mn_ctn'>
 			</div>
 			<div class='emp_vw_btns from_bottom'>		
 				<button class='sml_btn' id='bk_emp_vw'>
-				<img class='sml_img' src='img/back1.png'>
+				<img class='sml_img' src='img/back.png'>
 				</button>
 			</div>
 		
@@ -38,7 +38,7 @@ echo "<div class='mn_ctn'>
 			
 				<div class='info_btn'>
 					<button class='mini_btn cfm_pp'>
-						<img class='mini_img' src='img/confirm1.png'>
+						<img class='mini_img' src='img/confirm.png'>
 					</button>
 				</div>
 			</div>
@@ -51,7 +51,7 @@ echo "<div class='mn_ctn'>
 
 				<div class='qtn_btns'>	
 					<button class='mini_btn con_pp'>
-						<img class='mini_img' src=img/confirm1.png>
+						<img class='mini_img' src=img/confirm.png>
 					</button>
 					<button class='mini_btn can_pp'>
 						<img class='mini_img' src='img/cancel.png'>

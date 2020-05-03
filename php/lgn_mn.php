@@ -8,10 +8,10 @@ echo "<div class='mn_ctn'>
 			<input class='big_ipt from_top' id='password' type='password' placeholder='Heslo'>
 			<div class='lgn_mn_btns from_bottom'>
 				<button class='sml_btn' id='lgn_btn'>
-					<img class='sml_img' src='img/confirm1.png'>
+					<img class='sml_img' src='img/confirm.png'>
 				</button>
 				<button class='sml_btn' id='bk_lgn_mn'>
-					<img class='sml_img' src='img/back1.png'>
+					<img class='sml_img' src='img/back.png'>
 				</button>
 			</div>
 		</div>

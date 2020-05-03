@@ -52,7 +52,7 @@ echo "<div class='add_inf_name'><span>".$row["meno"]."</span></div>
 	</div>
 	<div class='add_inf_btns'>
 	<button class='mini_btn can_add_inf'>
-		<img class='mini_img' src='img/confirm1.png'>
+		<img class='mini_img' src='img/confirm.png'>
 	</button>
 	</div>";
 ?>

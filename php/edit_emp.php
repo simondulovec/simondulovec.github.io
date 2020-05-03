@@ -26,10 +26,10 @@ echo "<div class='mn_ctn'>
 			<div class='l_r_panel'>
 				<div class=l_panel>		
 					<input class='big_ipt from_top card_id' type='text' placeholder='Id (10 cifier)' value=".$row["id_karty"].">
-					<input class='big_ipt from_top emp_nm' type='text' placeholder='Meno a priezvisko' value=".$row["meno"].">
+					<input class='big_ipt from_top emp_nm' type='text' placeholder='Meno a priezvisko' value='".$row["meno"]."'>
 					<input class='big_ipt from_top date_of_bh' type='text' placeholder='Dátum narodenia' value=".$row["dt_of_bh"].">
-					<input class='big_ipt from_top city' type='text' placeholder='Mesto/Obec' value=".$row["mesto"].">
-					<input class='big_ipt from_top street' type='text' placeholder='Ulica' value=".$row["ulica"].">
+					<input class='big_ipt from_top city' type='text' placeholder='Mesto/Obec' value='".$row["mesto"]."'>
+					<input class='big_ipt from_top street' type='text' placeholder='Ulica' value='".$row["ulica"]."'>
 					<input class='big_ipt from_top stt_num' type='text' placeholder='PSČ' value=".$row["psc"].">
 				</div>
 
@@ -51,15 +51,15 @@ echo "<div class='mn_ctn'>
 					<input class='big_ipt from_top salary' type='text' placeholder='EUR/hod' value=".$row["plat"].">
 					<input class='big_ipt from_top st_date' type='text' placeholder='Dátum nástupu' value=".$row["st_date"].">
 					<input class='big_ipt from_top phone_num' type='text' placeholder='Tel.číslo (+421...)' value=".$row["tel_cislo"].">
-					<textarea class='add_info' placeholder='Poznámky'>".$row["poznamky"]."</textarea>
+					<textarea class='add_info from_top' placeholder='Poznámky'>".$row["poznamky"]."</textarea>
 				</div>
 			</div>
 			<div class='crt_emp_btns from_bottom'>
 				<button class='sml_btn ud_emp' value=".$row["id"].">
-				<img class='sml_img' src='img/add_employee.png'>
+				<img class='sml_img' src='img/confirm1.png'>
 				</button>
 				
-				<button class='sml_btn bk_crt_emp'>
+				<button class='sml_btn bk_edit_emp'>
 				<img class='sml_img' src='img/back1.png'>
 				</button>
 			</div>

@@ -6,7 +6,7 @@ echo "<div class='mn_ctn'>
 		</button>
 
 		<button class='big_btn from_left' id='emp_vw_mn'>
-		<img class='big_img' src='img/user4.png'>
+		<img class='big_img' src='img/user.png'>
 		</button>
 
 		<button class='big_btn from_right' id='emp_atd_mn'>

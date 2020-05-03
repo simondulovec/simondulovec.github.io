@@ -29,7 +29,7 @@ echo "<div class='mn_ctn'>
 					<input class='big_ipt from_top salary' type='text' placeholder='EUR/hod'>
 					<input class='big_ipt from_top st_date' type='text' placeholder='Dátum nástupu'>
 					<input class='big_ipt from_top phone_num' type='text' placeholder='Tel.číslo (+421...)'>
-					<textarea class='add_info' placeholder='Poznámky'></textarea>
+					<textarea class='from_top add_info' placeholder='Poznámky'></textarea>
 				</div>
 			</div>
 			<div class='crt_emp_btns from_bottom'>
@@ -38,7 +38,7 @@ echo "<div class='mn_ctn'>
 				</button>
 				
 				<button class='sml_btn bk_crt_emp'>
-				<img class='sml_img' src='img/back1.png'>
+				<img class='sml_img' src='img/back.png'>
 				</button>
 			</div>
 		</div>
@@ -52,7 +52,7 @@ echo "<div class='mn_ctn'>
 			
 			<div class='info_btn'>
 				<button class='mini_btn cfm_pp'>
-					<img class='mini_img' src='img/confirm1.png'>
+					<img class='mini_img' src='img/confirm.png'>
 				</button>
 			</div>
 		</div>
@@ -65,7 +65,7 @@ echo "<div class='mn_ctn'>
 
 			<div class='qtn_btns'>	
 				<button class='mini_btn con_pp'>
-					<img class='mini_img' src=img/confirm1.png>
+					<img class='mini_img' src=img/confirm.png>
 				</button>
 				<button class='mini_btn can_pp'>
 					<img class='mini_img' src='img/cancel.png'>
@@ -159,7 +159,7 @@ echo "<div class='mn_ctn'>
 
 
 
-		$('.card_id').mousedown(function(){
+		$(document).on('mousedown','.card_id',function(){
 			var input = $('.card_id');
 			setInterval(function(){
 				if (chk_card_id()==false){
@@ -175,7 +175,7 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 
-		$('.emp_nm').mousedown(function(){
+		$(document).on('mousedown','.emp_nm',function(){
 			var input = $('.emp_nm');
 			setInterval(function(){
 				if (chk_emp_nm()==false){
@@ -191,7 +191,7 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 
-		$('.date_of_bh').mousedown(function(){
+		$(document).on('mousedown','.date_of_bh',function(){
 			var input = $('.date_of_bh');
 			setInterval(function(){
 				if (chk_date_of_bh()==false){
@@ -207,7 +207,7 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 
-		$('.salary').mousedown(function(){
+		$(document).on('mousedown','.salary',function(){
 			var input = $('.salary');
 			setInterval(function(){
 				if (chk_salary()==false){	
@@ -223,7 +223,7 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 	
-		$('.st_date').mousedown(function(){
+		$(document).on('mousedown','.st_date',function(){
 			var input = $('.st_date');
 			setInterval(function(){
 				if (chk_st_date()==false){
@@ -239,7 +239,7 @@ echo "<div class='mn_ctn'>
 			},100);
 		});
 
-		$('.new_exp').mousedown(function(){
+		$(document).on('mousedown','.new_exp',function(){
 			var input = $('.new_exp');
 			setInterval(function(){
 				if (chk_new_exp()==false){

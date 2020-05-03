@@ -200,7 +200,7 @@ right:0;
 top:0;
 bottom:100px;
 z-index:1;
-width:350px;
+width:400px;
 height:150px;
 background:rgba(0,0,0,0.8);
 display:none;
@@ -213,12 +213,12 @@ background:rgba(0,0,0,0.9);
 
 .info{
 display:none;
-width:350px;
+width:400px;
 height:150px;
 }
 
 .msg_ctn{
-width:350px;
+width:400px;
 height:50px;
 display:flex;
 }
@@ -236,13 +236,13 @@ margin:25px auto 0 auto;
 
 .question{
 display:none;
-width:350px;
+width:400px;
 height:150px;
 }
 
 .qtn_btns{
 display:flex;
-width:150px;
+width:140px;
 margin:25px auto 0 auto;
 }
 
@@ -267,7 +267,7 @@ position:relative;
 body{
 width:100vw;
 height:100vh;
-background-image:url("../img/menu_background.jpg");
+background-image:url("../img/bckg.jpg");
 background-repeat: no-repeat;
 background-attachment: fixed;
 background-position:center;
@@ -502,19 +502,19 @@ box-shadow:none;
 animation-delay:0.35s
 }
 
-.emp_nm{
+.emp_nm,.salary{
 animation-delay:0.28s;
 }
 
-.date_of_bh{
+.date_of_bh, .st_date{
 animation-delay:0.21s;
 }
 
-.salary{
+.city, .phone_num{
 animation-delay:0.14s;
 }
 
-.st_date{
+.street{
 animation-delay:0.07s;
 }
 
@@ -992,4 +992,63 @@ margin-top:0;
 width:125px;
 height:125px;
 margin:30px auto 0 auto;
+}
+
+/*========================CALC_MENU=========================*/
+
+.calc_mn{
+width:1200px;
+height:650px;
+}
+
+#calc_data{
+width:400px;
+margin:0;
+}
+
+#sch_calc img{
+margin:10px;
+}
+
+.calc_sch{
+width:452px;
+}
+
+.result_mn{
+width:452px;
+height:50px;
+margin:auto;
+margin:200px auto 0 auto;
+display:flex;
+font-size:20px;
+animation-delay:0.2s;
+}
+
+.sum{
+width:100px;
+height:50px;
+background:rgba(0,0,0,0.7);
+display:flex;
+}
+
+.sum span{
+margin:auto;
+}
+
+.result{
+width:350px;
+height:50px;
+background:rgba(0,0,0,0.7);
+margin-left:2px;
+display:flex;
+}
+
+.result span{
+margin:auto;
+}
+
+.calc_btns{
+width:120px;
+height:120px;
+margin:150px auto 0 auto;
 }

@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
 			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".$check_out."</span></div>
 			<div class='atd_lt_time atd_item_ele def_csr'><span>".$row["time"]."</span></div>
 			<button class='dd_btn edit_atd' value=".$row["id"].">~</button>
-			<button class='dd_btn rem_atd' value=".$row["id"].">-</button>
+			<button class='dd_btn rem_atd' value=".$row["id"].">‒</button>
 
 		</div>
 

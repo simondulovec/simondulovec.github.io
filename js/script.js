@@ -13,7 +13,7 @@ var phone_num_ok = false;
 
 var crt_exp_ok=false;
 var edt_exp_ok=true;
-var edt_atd_ok=false;
+var edt_atd_ok=true;
 
 var exp_lt_dpd=false;
 var exp_mn_dpd=false;
@@ -22,9 +22,11 @@ var edt_atd_dpd=false;
 
 var emp_card_id="";
 
+//var city_itl=null;
+
 $(document).ready(function(){
 
-	$("#app").load("php/crt_emp.php");
+	$("#app").load("php/calc_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -136,7 +138,7 @@ $(document).ready(function(){
 			$("#app").load("php/crt_emp.php",function(){
 				ld_exp();
 			});
-		},600);
+		},500);
 	});
 
 	$(document).on("mousedown","#emp_vw_mn",function(){
@@ -146,7 +148,7 @@ $(document).ready(function(){
 				//loading employee data from database
 				ld_emp();
 			});
-		},600);
+		},500);
 	});
 
 	$(document).on("mousedown","#emp_atd_mn",function(){
@@ -155,9 +157,16 @@ $(document).ready(function(){
 			$("#app").load("php/emp_atd_mn.php",function(){
 				ld_atd();
 			});
-		},600);
+		},500);
 	});
 
+	$(document).on("mousedown","#calc",function(){
+		anim_adm_mn();
+		setTimeout(function(){
+			$("#app").load("php/calc_mn.php",function(){
+			});		
+		},500);
+	});
 
 	/*=======================CREATE_EMPLOYEE======================*/
 
@@ -172,14 +181,19 @@ $(document).ready(function(){
 		$(".select").animate({bottom:"+=800px"},600);
 		$(".card_id").animate({bottom:"+=800px"},600);
 		$(".emp_nm").delay(70).animate({bottom:"+=800px"},600);
+		$(".salary").delay(70).animate({bottom:"+=800px"},600);
 		$(".date_of_bh").delay(140).animate({bottom:"+=800px"},600);
-		$(".salary").delay(210).animate({bottom:"+=800px"},600);
-		$(".st_date").delay(280).animate({bottom:"+=800px"},600);
+		$(".st_date").delay(140).animate({bottom:"+=800px"},600);
+		$(".city").delay(210).animate({bottom:"+=800px"},600);
+		$(".phone_num").delay(210).animate({bottom:"+=800px"},600);
+		$(".street").delay(280).animate({bottom:"+=800px"},600);
+		$(".add_info").delay(350).animate({bottom:"+=800px"},600);
+		$(".stt_num").delay(350).animate({bottom:"+=800px"},600);
 
 		setTimeout(function(){
 			$("#app").load("php/admin_mn.php",function(){
 			});
-		},600);
+		},650);
 	});
 
 	$(document).on("mousedown",".crt_emp",function(){	
@@ -311,7 +325,7 @@ $(document).ready(function(){
 								show_salary();
 							}
 						}
-				}
+					}
 			});
 		});	
 
@@ -326,9 +340,7 @@ $(document).ready(function(){
 		}else if (edt_exp_dpd==true){
 			hide_edit_exp();
 			show_exp_info();
-
 			hide_exp_info(par_ele);
-
 			show_edit_exp(par_ele);
 		}
 	});
@@ -397,7 +409,7 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".rem_emp",function(){
 		var emp_id = $(this).val();
-		show_question("Odstrániť zamestnanca?");
+		show_question("Naozaj chcete zamestnanca odstrániť?");
 		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
 			$.ajax({
@@ -431,8 +443,7 @@ $(document).ready(function(){
 			$("#app").load("php/edit_emp.php",{emp_id:emp_id},function(){
 				ld_exp();
 			});
-		},500);
-
+		});
 	});
 
 	/*========================EMPLOYEE_EDIT_MENU=======================*/
@@ -477,8 +488,26 @@ $(document).ready(function(){
 		}
 	});
 
+	$(document).on("mousedown",".bk_edit_emp",function(){
+		$(".crt_emp_btns").delay(200).animate({bottom:"-=700px"},600);
+		$(".select").animate({bottom:"+=800px"},600);
+		$(".card_id").animate({bottom:"+=800px"},600);
+		$(".emp_nm").delay(70).animate({bottom:"+=800px"},600);
+		$(".salary").delay(70).animate({bottom:"+=800px"},600);
+		$(".date_of_bh").delay(140).animate({bottom:"+=800px"},600);
+		$(".st_date").delay(140).animate({bottom:"+=800px"},600);
+		$(".city").delay(210).animate({bottom:"+=800px"},600);
+		$(".phone_num").delay(210).animate({bottom:"+=800px"},600);
+		$(".street").delay(280).animate({bottom:"+=800px"},600);
+		$(".add_info").delay(350).animate({bottom:"+=800px"},600);
+		$(".stt_num").delay(350).animate({bottom:"+=800px"},600);
 
-
+		setTimeout(function(){
+			$("#app").load("php/emp_vw_mn.php",function(){
+				ld_emp();
+			});
+		},650);
+	});
 
 	/*=========================ATTENDANCE_VIEW_MENU==========================*/
 
@@ -508,16 +537,21 @@ $(document).ready(function(){
 
 			$.ajax({
 				method: "post",
+				dataType: "json",
 				url: "php/ud_atd.php",
 				data: {atd_id:atd_id, check_in:check_in, check_out:check_out},
-				success: function(){
-					hide_edit_atd();
-					show_atd_lt_item();
-
-					show_info("Dochádzka upravená!");
+				success: function(data){
+					if (data.state=="update_succesfull"){
+						hide_edit_atd();
+						show_atd_lt_item();
+						show_info("Dochádzka upravená!");
+					}else if (data.state=="no_changes"){
+						hide_edit_atd();
+						show_atd_lt_item();
+						show_info("Žiadne zmeny!");
+					}
 				}
 			});
-
 
 			setTimeout(function(){
 				ld_atd();
@@ -530,10 +564,9 @@ $(document).ready(function(){
 		$("#atd_data").val("");
 	});
 
-
 	$(document).on("mousedown",".rem_atd",function(){
 		var atd_id = $(this).val();
-		show_question("Naozaj chcete položku ostrániť?");
+		show_question("Naozaj chcete dochádzku odstrániť?");
 		$(document).on("mousedown",".con_pp",function(){
 			$.ajax({
 				method: "post",
@@ -542,15 +575,11 @@ $(document).ready(function(){
 				success: function(){
 					ld_atd();
 					hide_question();
-					show_info("Položka vymazaná!");
+					show_info("Dochádzka odstránená!");
 				}
 			});
 		});
 	});
-
-
-
-
 
 	$(document).on("mousedown","#bk_atd_mn",function(){
 		$(".sch_panel").animate({bottom:"+=800px"},600);
@@ -563,6 +592,26 @@ $(document).ready(function(){
 		},500);
 	});
 
+	/*=========================CALC_MENU========================*/
+
+	$(document).on("mousedown","#sch_calc",function(){
+		var calc_data = $("#calc_data").val().split("|");
+		var data = calc_data[0];
+		var from = calc_data[1];
+		var to = calc_data[2];
+		$(".result").load("php/ld_calc.php",{data:data, from:from, to:to});	
+	});
+
+	$(document).on("mousedown","#bk_calc_mn",function(){
+		$('.result_mn').animate({bottom:"+=700px"},600);
+		$('.calc_sch').delay(100).animate({bottom:"+=700px"},600);
+		$('.calc_btns').animate({top:"+=700px"},600);
+
+
+		setTimeout(function(){
+			$("#app").load("php/admin_mn.php");
+		},300);
+	});
 
 
 });
@@ -588,6 +637,12 @@ function anim_adm_mn(){
 //when pop up is visible ,all events are off !!!
 function bind_crt_emp(e){
 	var $target = $(e.target);
+	
+	/*if (!$target.is(".card_id")){
+		//document.write(city_itl);
+		clearInterval(city_itl);
+	}*/
+
 
 	if (exp_lt_dpd==true){
 		if (!$target.is(".sh_exp_lt")){
@@ -635,8 +690,10 @@ function bind_crt_emp(e){
 		if (!$target.is(".edt_atd")){
 			if (!$target.is(".check_in_ipt")){
 				if (!$target.is(".check_out_ipt")){
+					if($target.is('.cfm_edit_atd') && edt_atd_ok){
 					hide_edit_atd();
 					show_atd_lt_item();
+					}
 				}
 			}
 		}
@@ -872,20 +929,15 @@ function show_emp_add_inf(){
 	$(".des_panel").css("opacity",0);
 	$(".emp_scr_lt").css("opacity",0);
 	$(".emp_vw_btns").css("opacity",0);
-
-
 }
 
 function hide_emp_add_inf(){
 	$(".emp_add_inf_mn").animate({opacity:0},200);
 	$(".emp_add_inf_mn").css("z-index",-1);
-	$(".sch_panel").css("opacity",1);
-	$(".des_panel").css("opacity",1);
-	$(".emp_scr_lt").css("opacity",1);
-	$(".emp_vw_btns").css("opacity",1);
-
-
-
+	$(".sch_panel").animate({opacity:1},200);
+	$(".des_panel").animate({opacity:1},200);
+	$(".emp_scr_lt").animate({opacity:1},200);
+	$(".emp_vw_btns").animate({opacity:1},200);
 }
 
 /*==========REAL_TIME_INPUT_VALUE_CHECKING==========*/
@@ -920,7 +972,7 @@ function chk_date_num(date_str){
 
 function chk_crt_emp_ipts(){
 
-	if (!card_id_ok){
+/*	if (!card_id_ok){
 		set_shadow($(".card_id"));
 	}if (!emp_nm_ok){
 		set_shadow($(".emp_nm"));
@@ -930,9 +982,9 @@ function chk_crt_emp_ipts(){
 		set_shadow($(".salary"));
 	}if (!st_date_ok){
 		set_shadow($(".st_date"));
-	}/*if (!exp_ok){
+	}if (!exp_ok){
 		set_shadow($(".sh_exp_lt"));
-	}*/if (!city_ok){
+	}if (!city_ok){
 		set_shadow($(".city"));
 	}if (!street_ok){
 		set_shadow($(".street"));
@@ -942,7 +994,7 @@ function chk_crt_emp_ipts(){
 		set_shadow($(".add_info"));
 	}if (!phone_num_ok){
 		set_shadow($(".phone_num"));
-	}
+	}*/
 
 	if (card_id_ok && emp_nm_ok && date_of_bh_ok && salary_ok && 
 		st_date_ok && exp_ok && city_ok && street_ok && stt_num_ok && 
@@ -964,7 +1016,7 @@ function chk_exp(){
 }
 
 function chk_edt_exp(){
-	var ess=/^[a-z0-9]{1,20}$/;
+	var ess=/^[a-z]{1,20}$/;
 	var val=$(".exp_chg").val();
 
 	if (val.match(ess)){
@@ -1148,9 +1200,6 @@ function chk_phone_num(){
 	return false;	
 }
 
-
-
-
 /*=========================CRUD_FUNCTIONS_DATABASE=======================*/
 
 function ld_emp_nm(){
@@ -1173,8 +1222,7 @@ function ld_atd(){
 function ld_exp(){
 	//loading expertise data from database
 	$(".exp_scr_lt").load("php/ld_exp.php",function(){
-		check_exp_num();
-		
+		check_exp_num();		
 	});
 }
 
