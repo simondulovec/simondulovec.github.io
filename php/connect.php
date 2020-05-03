@@ -3,9 +3,9 @@ class DatabaseConnect{
 
 	private static $instance = null;
 	private $conn;
-	private $servername = "localhost";
-	private $username = "simon";
-	private $password = "simon44695";
+	private $servername = "dulo.mysql.database.azure.com";
+	private $username = "simon@dulo";
+	private $password = "Dulovec44695";
 	private $db_name= "attendance";
 
 	private function __construct(){
