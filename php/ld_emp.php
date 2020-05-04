@@ -11,7 +11,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows>0){
 	while ($row=$result->fetch_assoc()){
-		echo "<div class='emp_lt_item '>
+		echo "<div class='emp_lt_item fade_in'>
 			<div class='emp_lt_name emp_item_ele def_csr'><span>".$row["meno"]."</span></div>
 			<div class='emp_lt_date emp_item_ele def_csr'><span>".$row["formatted_date"]."</span></div>
 			<div class='emp_lt_exp emp_item_ele default_cursor'><span>".$row["nazov"]."</span></div>
@@ -22,6 +22,6 @@ if ($result->num_rows>0){
 	}
 }
 else{
-echo "<div class='empty_lt'><div>Prázdny zoznam</div></div>";
+echo "<div class='empty_lt fade_in'><div>Prázdny zoznam</div></div>";
 }
 ?>

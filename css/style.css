@@ -784,7 +784,7 @@ position:relative;
 
 .des_ele{
 height:50px;
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.8);
 text-indent:20px;
 display:flex;
 font-size:20px;
@@ -811,7 +811,7 @@ margin-left:2px;
 .empty_lt{
 width:1200px;
 height:50px;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.5);
 display:flex;
 }
 
@@ -965,9 +965,14 @@ margin:25px auto 0 auto;
 /*=========================ATTENDANCE_MENU=========================*/
 
 .atd_mn{
-width:1300px;
+width:1400px;
 height:650px;
 #background:red;
+}
+
+
+.atd_des{
+width:1350px;
 }
 
 #atd_data{
@@ -980,26 +985,31 @@ margin:10px;
 }
 
 .atd_name_des{
-width:298px;
+width:350px;
 }
 
 .check_in_des{
-width:281px;
+width:250px;
 margin-left:2px;
 }
 
 .check_out_des{
-width:281px;
+width:250px;
 margin-left:2px;
 }
 
 .time_des{
-width:334px;
+width:160px;
+margin-left:2px;
+}
+
+.state_des{
+width:332px;
 margin-left:2px;
 }
 
 .atd_scr_lt{
-width:1200px;
+width:1350px;
 height:310px;
 #background:green;
 margin:2px auto 0 auto;
@@ -1011,7 +1021,7 @@ animation-delay:0.1s
 
 .atd_lt_item{
 position:relative;
-width:1200px;
+width:1350px;
 height:50px;
 display:flex;
 #background:blue;
@@ -1021,38 +1031,44 @@ direction:ltr;
 
 .atd_info{
 display:flex;
-width:1200px;
+width:1350px;
 height:50px;
 }
 
 .atd_item_ele{
 height:50px;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.5);
 text-indent:20px;
 display:flex;
 font-size:20px;
 }
 
 .atd_item_ele span{
-margin-top:15px;
+margin-top:17px;
+font-size:18px;
 }
 
 .atd_lt_name{
-width:298px;
+width:350px;
 }
 
 .atd_lt_check_in{
-width:281px;
+width:250px;
 margin-left:2px;
 }
 
 .atd_lt_check_out{
-width:281px;
+width:250px;
 margin-left:2px;
 }
 
 .atd_lt_time{
-width:230px;
+width:160px;
+margin-left:2px;
+}
+
+.atd_lt_csh_out{
+width:176px;
 margin-left:2px;
 }
 
@@ -1069,7 +1085,7 @@ height:50px;
 
 .check_in_ipt{
 width:281px;
-margin-left:300px;
+margin-left:302px;
 margin-top:0;
 }
 
@@ -1083,6 +1099,10 @@ margin-top:0;
 width:125px;
 height:125px;
 margin:30px auto 0 auto;
+}
+
+.ept_atd_lt{
+width:1350px;
 }
 
 /*========================CALC_MENU=========================*/

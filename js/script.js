@@ -24,6 +24,8 @@ var emp_card_id="";
 
 //var city_itl=null;
 
+jQuery.ajaxSetup({async:false});
+
 $(document).ready(function(){
 
 	$("#app").load("php/app_mn.php");
@@ -107,11 +109,14 @@ $(document).ready(function(){
 					if (data.state=="check_in_error"){
 						show_info("Najprv zaregistrujte odchod!");
 					}else if (data.state=="employee_checked_in"){
-						show_info("Príchod zaregistrovaný!");
 						$('.check_in_pn').text("Príchod: " + get_curr_time());
+						show_info("Príchod zaregistrovaný!");
 					}
 				},
-				complete: hide_loading
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+				complete: hide_loading 
 			});
 		}
 	});
@@ -133,9 +138,12 @@ $(document).ready(function(){
 					if (data.state=="check_out_error"){
 						show_info("Najprv zaregistrujte príchod!");
 					}else if (data.state=="employee_checked_out"){
-						show_info("Odchod zaregistrovaný!");
 						$('.check_in_pn').text("Príchod: nezaregistrovaný");
+						show_info("Odchod zaregistrovaný!");
 					}
+				},
+				error: function(){
+					show_info("Chyba spojenia!");
 				},
 				complete: hide_loading
 			});
@@ -228,6 +236,8 @@ $(document).ready(function(){
 			var phone_num = $(".phone_num").val();
 			var add_info = $(".add_info").val();
 
+			show_loading();
+
 			$.ajax({
 				method: "post",
 				dataType: "json",
@@ -237,12 +247,13 @@ $(document).ready(function(){
 					st_date:st_date,exp_id:exp_id, city:city, 
 					street:street, stt_num:stt_num, add_info:add_info,phone_num:phone_num},
 				success: function(data){
-					if (data.state==false){
-						show_info("Karta sa v systéme už nachádza!");
-					}else{
-						show_info("Zamestnanec vytvorený!");
-					}
-				}
+					show_info(data.state);
+					},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+				complete: hide_loading
+
 			});
 		}
 		else{
@@ -303,7 +314,9 @@ $(document).ready(function(){
 						show_info("Pozícia vyrvorená!");
 					}
 				},
-
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
 				complete: hide_loading
 			});
 		}
@@ -316,12 +329,11 @@ $(document).ready(function(){
 		var exp_id = $(this).val();
 		show_question("Naozaj chcete pozíciu odstŕaniť?");
 		$(document).on("mousedown",".con_pp",function(){
-			hide_question();
-			
 			if (exp_id== $(".sh_exp_lt").val()){
 				$(".sh_exp_lt").val(-1);
 				$(".sh_exp_lt").html("Pozícia");
 			}
+			hide_question();
 			show_loading();
 			$.ajax({
 				method: "post",
@@ -329,25 +341,26 @@ $(document).ready(function(){
 				url: "php/del_exp.php",
 				data: {exp_id:exp_id},
 				success: function(data){
-						if (data.state == "error"){
-							show_info("Pozícia sa nedá odstrániť!");
-						}else{
-							ld_exp();
-							show_info("Pozícia odstránená!");
-						}
-					},
-				complete: function(){
-						var lt_height = ($(".exp_scr_lt").find(".exp_lt_ele").length * 52) - 52;
-						if (lt_height < 156){
-							$(".exp_lt").css("height","" + lt_height + "px");
-							if (lt_height==52){
-								show_st_date();
-							}else if(lt_height==0){
-								show_salary();
-							}
-						}
-					hide_loading();
+					if (data.state == "error"){
+						show_info("Pozícia sa nedá odstrániť!");
+					}else{
+						ld_exp();
+						show_info("Pozícia odstránená!");
 					}
+					var lt_height = ($(".exp_scr_lt").find(".exp_lt_ele").length * 52) - 52;
+					if (lt_height < 156){
+						$(".exp_lt").css("height","" + lt_height + "px");
+						if (lt_height==52){
+							show_st_date();
+						}else if(lt_height==0){
+							show_salary();
+						}
+					}
+				},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+				complete: hide_loading
 			});
 		});	
 
@@ -369,26 +382,29 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".cfm_edt_exp",function(){	
 		if (edt_exp_ok==true){
-		var exp_id = $(this).val();
-		var exp_chg = $(this).parent().find(".exp_chg").val();
-		
-		show_loading();
-		$.ajax({
-			method: "post",
-			url: "php/ud_exp.php",
-			data: {exp_id:exp_id, exp_chg:exp_chg},
-			success: function(){
-				ld_exp();
-				show_info("Pozícia premenovaná!");
+			var exp_id = $(this).val();
+			var exp_chg = $(this).parent().find(".exp_chg").val();
 
-				if(exp_id==$(".sh_exp_lt").val()){
-					$(".sh_exp_lt").html(exp_chg);
-				}
-			},
-			complete: hide_loading
+			show_loading();
+			$.ajax({
+				method: "post",
+				url: "php/ud_exp.php",
+				data: {exp_id:exp_id, exp_chg:exp_chg},
+				success: function(){
+					ld_exp();
+					show_info("Pozícia premenovaná!");
 
-		});
-			}else{
+					if(exp_id==$(".sh_exp_lt").val()){
+						$(".sh_exp_lt").html(exp_chg);
+					}
+				},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+				complete: hide_loading
+
+			});
+		}else{
 			show_info("Zadajte správny formát!");
 		}
 	});
@@ -397,20 +413,10 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".cfm_pp",function(){
 		hide_info();
-		$(".mn_ctn").css("background","rgba(0,0,0,0)");
-		$("main").on("mousedown",function(e){
-			bind_crt_emp(e);
-		});
-		$(".ctd *").css("pointer-events", "auto");
 	});
 
 	$(document).on("mousedown",".can_pp",function(){
 		hide_question();
-		$(".mn_ctn").css("background","rgba(0,0,0,0)");
-		$("main").on("mousedown",function(e){
-			bind_crt_emp(e);
-		});
-		$(".ctd *").css("pointer-events", "auto");
 	});
 
 	/*=======================EMPLOYEE_VIEW_MENU==========================*/
@@ -437,6 +443,7 @@ $(document).ready(function(){
 		show_question("Naozaj chcete zamestnanca odstrániť?");
 		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
+			show_loading();
 			$.ajax({
 				method:"post",
 				url: "php/del_emp.php",
@@ -444,7 +451,12 @@ $(document).ready(function(){
 				success: function(){
 					ld_emp();
 					show_info("Zamestnanec ostránený!");
-				}
+				},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+				complete: hide_loading
+
 			});
 		});
 	});
@@ -454,8 +466,8 @@ $(document).ready(function(){
 		var emp_id = $(this).val();
 		$(".emp_add_inf_mn").empty();
 		$(".emp_add_inf_mn").load("php/ld_emp_inf.php",{emp_id:emp_id},function(){
-		show_emp_add_inf();
-		hide_loading();
+			show_emp_add_inf();
+			hide_loading();
 		});
 	});
 
@@ -517,6 +529,9 @@ $(document).ready(function(){
 						show_info("Zamestnanec upravený!");
 					}
 				},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
 				complete: hide_loading
 			});
 		}
@@ -550,7 +565,7 @@ $(document).ready(function(){
 	/*=========================ATTENDANCE_VIEW_MENU==========================*/
 
 	$(document).on("mousedown",".edit_atd",function(){
-
+		edt_atd_ok=true;
 		var parent_item = $(this).parent().parent();
 
 		if (edt_atd_dpd==false){
@@ -591,6 +606,10 @@ $(document).ready(function(){
 						show_info("Žiadne zmeny!");
 					}
 				},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+
 				complete: hide_loading
 			});
 
@@ -609,6 +628,7 @@ $(document).ready(function(){
 		var atd_id = $(this).val();
 		show_question("Naozaj chcete dochádzku odstrániť?");
 		$(document).on("mousedown",".con_pp",function(){
+			hide_question();
 			show_loading();
 			$.ajax({
 				method: "post",
@@ -617,15 +637,15 @@ $(document).ready(function(){
 				data: {atd_id:atd_id},
 				success: function(data){
 					if (data.state=="error"){
-						hide_question();
 						show_info("Dochádzka sa nedá odstrániť!");
-					}else{
+					}else if (data.state=="delete_succesfull"){
 						ld_atd();
-						hide_question();
 						show_info("Dochádzka odstránená!");
 					}
 				},
-
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
 				complete:function(){
 					hide_loading();
 				}
@@ -643,6 +663,36 @@ $(document).ready(function(){
 			$("#app").empty();
 			$("#app").load("php/admin_mn.php");
 		},500);
+	});
+
+
+	$(document).on("mousedown",".cash_out",function(){
+		var atd_id=$(this).val();
+		show_question("Naozaj chcete dochádzku zaplatiť?");
+		$(document).on("mousedown",".con_pp",function(){
+			hide_question();
+			show_loading();
+			$.ajax({
+				method: "post",
+				dataType: "json",
+				url: "php/cash_out.php",
+				data: {atd_id:atd_id},
+				success:function(data){
+					if (data.state=="no_changes"){
+						show_info("Žiadne zmeny!");
+					}else if (data.state=="update_succesfull"){
+						ld_atd();
+						show_info("Dochádzka zaplatená");
+					}
+				},
+				error: function(){
+					show_info("Chyba spojenia!");
+				},
+				complete:hide_loading
+			});
+
+		});
+
 	});
 
 	/*=========================CALC_MENU========================*/
@@ -671,7 +721,6 @@ $(document).ready(function(){
 		},300);
 	});
 
-
 });
 
 /*=======================FUNCTIONS=========================*/
@@ -695,9 +744,9 @@ function anim_adm_mn(){
 //when pop up is visible ,all events are off !!!
 function bind_crt_emp(e){
 	var $target = $(e.target);
-	
+
 	/*if (!$target.is(".card_id")){
-		//document.write(city_itl);
+	//document.write(city_itl);
 		clearInterval(city_itl);
 	}*/
 
@@ -736,9 +785,9 @@ function bind_crt_emp(e){
 		if(!$target.is(".exp_chg")){
 			if(!$target.is(".cfm_pp")){
 				if(!$target.is(".cfm_edt_exp")){
-				hide_edit_exp();
-				show_exp_info();
-				edt_exp_dpd=false;
+					hide_edit_exp();
+					show_exp_info();
+					edt_exp_dpd=false;
 				}
 			}
 		}
@@ -786,8 +835,8 @@ function show_loading(){
 
 function hide_loading(){
 	$(".loading").css('opacity','0');
-		$("main").on("mousedown",function(e){
-			bind_crt_emp(e);
+	$("main").on("mousedown",function(e){
+		bind_crt_emp(e);
 	});
 	$(".ctd *").css("pointer-events", "auto");	
 }
@@ -797,29 +846,39 @@ function hide_info(){
 	$(".pop_up").css('display','none');
 	$(".info").css('display','none');
 	$(".ctd").css("opacity","1");
+	$(".mn_ctn").css("background","rgba(0,0,0,0)");
+	$("main").on("mousedown",function(e){
+		bind_crt_emp(e);
+	});
+	$(".ctd *").css("pointer-events", "auto");
+
 }
 
 function hide_question(){
 	$(".pop_up").css('display','none');
 	$(".question").css('display','none');
 	$(".ctd").css("opacity","1");
-
+	$(".mn_ctn").css("background","rgba(0,0,0,0)");
+	$("main").on("mousedown",function(e){
+		bind_crt_emp(e);
+	});
+	$(".ctd *").css("pointer-events", "auto");
 }
 
 /*========================UPDATE_EMP_FUNCTIONS=======================*/
 
 function set_ud_emp(){
-card_id_ok = true;
-emp_nm_ok = true;
-date_of_bh_ok = true;
-salary_ok = true;
-st_date_ok = true;
-exp_ok = true;
-city_ok = true;
-street_ok = true;
-stt_num_ok = true;
-add_info_ok = true;
-phone_num_ok = true;
+	card_id_ok = true;
+	emp_nm_ok = true;
+	date_of_bh_ok = true;
+	salary_ok = true;
+	st_date_ok = true;
+	exp_ok = true;
+	city_ok = true;
+	street_ok = true;
+	stt_num_ok = true;
+	add_info_ok = true;
+	phone_num_ok = true;
 }
 
 /*=========================CREATE_EMPLOYEE_ELEMENTS_FUNCTIONS=========================*/
@@ -887,7 +946,7 @@ function show_exp_lt(){
 	$(".exp_scr_lt").animate({
 		top: "+=" + list_height + "px"	
 	},200);
-	
+
 	if (list_height==52){
 		hide_salary();
 	}else if (list_height >52){
@@ -1025,7 +1084,7 @@ function chk_timestamp(ele){
 	var val = ele.val();
 	var date = val.split(" ");
 	if (val.match(ess)){
-		if (chk_date_num(date[0])==true){				
+		if (chk_date_num(date[0])==true && val[0]!=' '){				
 			edt_atd_ok=true;
 			return true;
 		}else{
@@ -1050,7 +1109,7 @@ function chk_date_num(date_str){
 
 function chk_crt_emp_ipts(){
 
-/*	if (!card_id_ok){
+	/*	if (!card_id_ok){
 		set_shadow($(".card_id"));
 	}if (!emp_nm_ok){
 		set_shadow($(".emp_nm"));
@@ -1267,10 +1326,10 @@ function chk_phone_num(){
 	var val=$(".phone_num").val();
 	if (val.match(ess)){
 		if (val[0]!=' '){
-		phone_num_ok=true;
-		return true;
-	}
-	
+			phone_num_ok=true;
+			return true;
+		}
+
 	}
 	else {
 		phone_num_ok=false;

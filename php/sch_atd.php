@@ -5,6 +5,8 @@ require "functions.php";
 
 
 $sql="SELECT osoby.meno,
+	     dochadzky.zaplatene,
+	     dochadzky.id,
       	     DATE_FORMAT(DATE(dochadzky.prichod),'%e.%c.%Y') as check_in_date,
 	     TIME(dochadzky.prichod) as check_in_time,
 	     DAYNAME(dochadzky.prichod) as check_in_day,
@@ -34,15 +36,23 @@ if ($result->num_rows > 0){
 			$row["time"]="Prázdne";
 		}if ($row["check_out_time"]!=""){
 		$check_out=convert_day('check_out_day',$row).", ".$row['check_out_date']." ".$row['check_out_time'];
-	}
+		}
+		if ($row["zaplatene"]==0){
+			$row["zaplatene"]="Nezaplatené";
+		}else if ($row["zaplatene"]==1){
+			$row["zaplatene"]="Zaplatené";
+		}
 
-echo "<div class='atd_lt_item'>	      
+
+echo "<div class='atd_lt_item fade_in'>	      
 	<div class='atd_info'>
 			<div class='atd_lt_name atd_item_ele def_csr'><span>".$row["meno"]."</span></div>
 			<div class='atd_lt_check_in atd_item_ele deft_csr'><span>".convert_day("check_in_day",$row).", ".$row["check_in_date"]." ".$row["check_in_time"]."</span></div>
 			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".$check_out."</span></div>
 			<div class='atd_lt_time atd_item_ele def_csr'><span>".$row["time"]."</span></div>
+			<div class='atd_lt_csh_out atd_item_ele def_csr'><span>".$row["zaplatene"]."</span></div>
 			<button class='dd_btn edit_atd' value=".$row["id"].">~</button>
+			<button class='dd_btn cash_out' value=".$row["id"].">€</button>
 			<button class='dd_btn rem_atd' value=".$row["id"].">‒</button>
 
 		</div>
@@ -57,6 +67,6 @@ echo "<div class='atd_lt_item'>
 }
 }
 else{
-	echo "<div class='empty_lt'><div>Žiadna zhoda</div></div>";
+	echo "<div class='empty_lt ept_atd_lt fade_in'><div>Žiadna zhoda</div></div>";
 }
 ?>

@@ -7,10 +7,11 @@ $sql = "DELETE FROM dochadzky WHERE id=".$_POST["atd_id"]." AND
 $conn->query($sql);
 
 $response=array();
-$response["state"]="delete_succesfull";
 
 if ($conn->affected_rows == 0){
 	$response["state"]="error";
+}else if ($conn->affected_rows == 1){
+	$response["state"]="delete_succesfull";
 }
 
 echo json_encode($response);

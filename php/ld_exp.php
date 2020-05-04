@@ -6,7 +6,7 @@ $sql = "SELECT * FROM pozicie";
 $result = $conn->query($sql);
 
 while ($row = $result->fetch_assoc()){
-	echo "<div class= 'exp_lt_ele'>
+	echo "<div class='exp_lt_ele'>
 		<div class='exp_info'>
 			<button class='exp_lt_btn' value=".$row["id"].">".$row["nazov"]."</button>
 			<button class='dd_btn edt_exp'>~</button>

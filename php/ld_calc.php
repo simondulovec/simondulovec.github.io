@@ -19,8 +19,7 @@ $sql = "SELECT osoby.meno,
 	osoby.plat,
 	pozicie.nazov,
 	TIMEDIFF(dochadzky.odchod, dochadzky.prichod) as time FROM osoby
-	JOIN dochadzky ON (osoby.id=dochadzky.osoba AND
-	dochadzky.odchod IS NOT NULL)
+	JOIN dochadzky ON (osoby.id=dochadzky.osoba AND dochadzky.odchod IS NOT NULL AND dochadzky.zaplatene=0)
 	JOIN pozicie ON (osoby.pozicia=pozicie.id) AND
 	(osoby.id LIKE '%".$_POST["data"]."%' OR
 	osoby.id_karty LIKE '".$_POST["data"]."' OR
