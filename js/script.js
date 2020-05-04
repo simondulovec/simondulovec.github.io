@@ -521,14 +521,8 @@ $(document).ready(function(){
 					street:street, stt_num:stt_num, add_info:add_info, 
 					phone_num:phone_num, emp_id:emp_id},
 				success: function(data){
-					if (data.state=="update_error"){
-						show_info("Karta sa v systéme už nachádza!");
-					}else if(data.state=="no_changes"){
-						show_info("Žiadne zmeny!");
-					}else{
-						show_info("Zamestnanec upravený!");
-					}
-				},
+					show_info(data.state);
+					},
 				error: function(){
 					show_info("Chyba spojenia!");
 				},
@@ -698,28 +692,52 @@ $(document).ready(function(){
 	/*=========================CALC_MENU========================*/
 
 	$(document).on("mousedown","#sch_calc",function(){
-		var calc_data = $("#calc_data").val().split("|");
-		var data = calc_data[0];
-		var from = calc_data[1];
-		var to = calc_data[2];
+		var emp_id = $("#id_calc_data").val();
+		var from = $("#from_calc_data").val();
+		var to = $("#to_calc_data").val();
 		$(".result").empty();
 		show_loading();
-		$(".result").load("php/ld_calc.php",{data:data, from:from, to:to},function(){
+		$(".result").load("php/ld_calc.php",{emp_id:emp_id, from:from, to:to},function(){
 			hide_loading();
 		});	
 	});
 
 	$(document).on("mousedown","#bk_calc_mn",function(){
-		$('.result_mn').animate({bottom:"+=700px"},600);
-		$('.calc_sch').delay(100).animate({bottom:"+=700px"},600);
+		$('.result_mn').delay(100).animate({bottom:"+=700px"},600);
+		$('.calc_sch').animate({bottom:"+=700px"},600);
 		$('.calc_btns').animate({top:"+=700px"},600);
-
 
 		setTimeout(function(){
 			$("#app").empty();
 			$("#app").load("php/admin_mn.php");
-		},300);
+		},400);
 	});
+
+	$(document).on("mousedown","#cash_out_btn",function(){
+		var list_data = $(this).val().split("|");
+		var emp_id = list_data[0];
+		var from = list_data[1];
+		var to = list_data[2];
+		
+		show_loading();
+		$.ajax({	
+			method: "post",
+			url: "php/cash_out_all.php",
+			data: {emp_id:emp_id, from:from, to:to},
+			success: function(data){
+				show_info(data.state);
+			},
+			error:function(){
+				show_info("Chyba siete!");
+			},
+			complete: hide_loading
+
+		});
+
+	});
+
+
+
 
 });
 
