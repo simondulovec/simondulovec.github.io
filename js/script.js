@@ -10,6 +10,9 @@ var street_ok = false;
 var stt_num_ok = false;
 var add_info_ok = true;
 var phone_num_ok = false;
+var calc_id_ok = false;
+var calc_from_ok = false;
+var calc_to_ok = false;
 
 var crt_exp_ok=false;
 var edt_exp_ok=true;
@@ -19,16 +22,17 @@ var exp_lt_dpd=false;
 var exp_mn_dpd=false;
 var edt_exp_dpd=false;
 var edt_atd_dpd=false;
+var dd_state_dpd=false;
 
 var emp_card_id="";
 
-//var city_itl=null;
+//var city_itl=nul;
 
 jQuery.ajaxSetup({async:false});
 
 $(document).ready(function(){
 
-	$("#app").load("php/app_mn.php");
+	$("#app").load("php/calc_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -248,7 +252,7 @@ $(document).ready(function(){
 					street:street, stt_num:stt_num, add_info:add_info,phone_num:phone_num},
 				success: function(data){
 					show_info(data.state);
-					},
+				},
 				error: function(){
 					show_info("Chyba spojenia!");
 				},
@@ -522,7 +526,7 @@ $(document).ready(function(){
 					phone_num:phone_num, emp_id:emp_id},
 				success: function(data){
 					show_info(data.state);
-					},
+				},
 				error: function(){
 					show_info("Chyba spojenia!");
 				},
@@ -561,6 +565,12 @@ $(document).ready(function(){
 	$(document).on("mousedown",".edit_atd",function(){
 		edt_atd_ok=true;
 		var parent_item = $(this).parent().parent();
+		
+		var check_out_v = parent_item.find(".atd_lt_check_out").text();
+
+		if (check_out_v == "Nezaregistrovaný"){
+			show_info("Dochádzku nie je možné upraviť!");
+		}else{
 
 		if (edt_atd_dpd==false){
 			hide_atd_lt_item(parent_item);
@@ -570,6 +580,7 @@ $(document).ready(function(){
 			show_atd_lt_item();
 			hide_atd_lt_item(parent_item);
 			show_edit_atd(parent_item);
+		}
 		}
 	});
 
@@ -620,6 +631,12 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".rem_atd",function(){
 		var atd_id = $(this).val();
+		var check_out_v = $(this).parent().parent().find(".atd_lt_check_out").text();
+
+		if (check_out_v == "Nezaregistrovaný"){
+			show_info("Dochádzku nie je možné vymazať!");
+		}else{
+
 		show_question("Naozaj chcete dochádzku odstrániť?");
 		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
@@ -645,6 +662,7 @@ $(document).ready(function(){
 				}
 			});
 		});
+		}
 	});
 
 	$(document).on("mousedown","#bk_atd_mn",function(){
@@ -662,6 +680,12 @@ $(document).ready(function(){
 
 	$(document).on("mousedown",".cash_out",function(){
 		var atd_id=$(this).val();
+		var check_out_v = $(this).parent().parent().find(".atd_lt_check_out").text();
+
+		if (check_out_v == "Nezaregistrovaný"){
+			show_info("Dochádzku nie je možné zaplatiť!");
+		}else{
+
 		show_question("Naozaj chcete dochádzku zaplatiť?");
 		$(document).on("mousedown",".con_pp",function(){
 			hide_question();
@@ -686,20 +710,27 @@ $(document).ready(function(){
 			});
 
 		});
+		}
 
 	});
 
 	/*=========================CALC_MENU========================*/
 
 	$(document).on("mousedown","#sch_calc",function(){
-		var emp_id = $("#id_calc_data").val();
-		var from = $("#from_calc_data").val();
-		var to = $("#to_calc_data").val();
-		$(".result").empty();
-		show_loading();
-		$(".result").load("php/ld_calc.php",{emp_id:emp_id, from:from, to:to},function(){
-			hide_loading();
-		});	
+		if (calc_id_ok && calc_from_ok && calc_to_ok){
+			var emp_id = $("#id_calc_data").val();
+			var from = $("#from_calc_data").val();
+			var to = $("#to_calc_data").val();
+			var state = $("#dd_state_btn").val();
+
+			show_loading();
+			$(".result").empty();
+			$(".result").load("php/ld_calc.php",{emp_id:emp_id, from:from, to:to, state:state},function(){
+				hide_loading();
+			});}
+		else{
+			show_info("Vyplňte správne všetky údaje!");
+		}
 	});
 
 	$(document).on("mousedown","#bk_calc_mn",function(){
@@ -718,13 +749,17 @@ $(document).ready(function(){
 		var emp_id = list_data[0];
 		var from = list_data[1];
 		var to = list_data[2];
-		
+
+
 		show_loading();
 		$.ajax({	
 			method: "post",
-			url: "php/cash_out_all.php",
+			dataType: "json",
+			url: "php/calc_cash_out.php",
 			data: {emp_id:emp_id, from:from, to:to},
 			success: function(data){
+				$(".euro").parent().html("<span class='euro'>0 €</span>");
+
 				show_info(data.state);
 			},
 			error:function(){
@@ -736,6 +771,29 @@ $(document).ready(function(){
 
 	});
 
+	$(document).on("mousedown","#dd_state_btn",function(){
+		if(dd_state_dpd == false){
+			show_state();
+		}else if(dd_state_dpd ==true){
+			hide_state();
+		}
+
+	});
+
+	$(document).on("mousedown","#state_all",function(){
+		$("#dd_state_btn").val($(this).val());
+		$("#dd_state_btn").html($(this).text());
+	});
+
+	$(document).on("mousedown","#state_payed",function(){
+		$("#dd_state_btn").val($(this).val());
+		$("#dd_state_btn").html($(this).text());
+	});
+
+	$(document).on("mousedown","#state_not_payed",function(){
+		$("#dd_state_btn").val($(this).val());
+		$("#dd_state_btn").html($(this).text());
+	});
 
 
 
@@ -823,6 +881,12 @@ function bind_crt_emp(e){
 			}
 		}
 	}
+
+	if (dd_state_dpd){
+		if (!$target.is("#dd_state_btn")){
+			hide_state();		
+		}
+	}
 }
 
 function show_info(message){
@@ -897,6 +961,17 @@ function set_ud_emp(){
 	stt_num_ok = true;
 	add_info_ok = true;
 	phone_num_ok = true;
+}
+
+/*=========================/*CALC_MENU_FUNCTIONS========================*/
+function show_state(){
+	$('.dd_state_lt').animate({top:"+=156px"},200);
+	dd_state_dpd=true;
+}
+
+function hide_state(){
+	$('.dd_state_lt').animate({top:"-=156px"},200);
+	dd_state_dpd=false;
 }
 
 /*=========================CREATE_EMPLOYEE_ELEMENTS_FUNCTIONS=========================*/
@@ -1028,6 +1103,17 @@ function check_emp_num(){
 	}
 }
 
+function check_atd_num(){
+	var max_atd_vis = 6;
+	var new_width = "336px";
+	var new_margin = "14px";
+	num_of_atd=$(".atd_scr_lt").find('.atd_lt_item').length;
+	if(num_of_atd> max_atd_vis){
+		$('.atd_lt_name').css("width",new_width);
+		$('.atd_lt_name').css("margin-left",new_margin);
+	}
+}
+
 function check_exp_num(){
 	var max_exp_vis = 3;
 	var new_width = "232px";
@@ -1040,21 +1126,6 @@ function check_exp_num(){
 		$('.exp_chg').css("width",new_widthi);
 		$('.exp_chg').css("margin-left",new_margin);
 	}
-}
-
-function check_atd_num(){
-	var max_attendance_visible = 6;
-	var new_width = "336px";
-	var new_margin = "14px";
-	num_of_attendance=$(".attendance_scroll_list").find('.attendance_list_item').length;
-	if(num_of_attendance> max_attendance_visible){
-		$('.attendance_list_name').css("width",new_width);
-		$('.attendance_list_name').css("margin-left",new_margin);
-	}
-}
-
-function remove_edit_expertise_value(){
-	$('#edited_expertise').val("");
 }
 
 function set_shadow(ele){
@@ -1212,6 +1283,19 @@ function chk_card_id(){
 	return false;
 }
 
+function chk_calc_id(){
+	var ess=/^\*$|\d{1,10}$/;
+	var val=$("#id_calc_data").val();
+	if (val.match(ess)){
+		calc_id_ok=true;
+		return true;
+	}else{
+		calc_id_ok=false;
+	}
+	return false;
+}
+
+
 function chk_emp_nm(){
 	var ess=/^[a-zA-ZÀ-Ž\s]{1,30}$/;
 	var val=$(".emp_nm").val();
@@ -1231,13 +1315,13 @@ function chk_emp_nm(){
 function chk_date_of_bh(){
 	var age = 16;
 	var date = new Date();
-	var year = date.getFullYear() - age;
-	var ess = /^([1-9]|1[0-9]|2[0-9]|30|31).([1-9]|1[0-2]).\d{4}$/;
+	var acc_year = date.getFullYear() - age;
+	var ess = /^([1-9]|1[0-9]|2[0-9]|30|31)\.([1-9]|1[0-2])\.\d{4}$/;
 	var val = $(".date_of_bh").val();
 	var int_year = parseInt(val.slice(-4));
 
 	if (val.match(ess)){
-		if (int_year <= 2003 && int_year >=1900 ){
+		if (int_year <= acc_year && int_year >=1900 ){
 			if(chk_date_num(val)==true){
 				date_of_bh_ok=true;
 				return true;
@@ -1266,7 +1350,7 @@ function chk_salary(){
 function chk_st_date(){
 	var date = new Date();
 	var year= date.getFullYear();
-	var str= "^([1-9]|1[0-9]|2[0-9]|30|31).([1-9]|1[0-2]).(" + year + ")$";
+	var str= "^([1-9]|1[0-9]|2[0-9]|30|31)\\.([1-9]|1[0-2])\\.(" + year + ")$";
 	var ess=new RegExp(str);
 	var val=$(".st_date").val();
 	if (val.match(ess)){
@@ -1277,6 +1361,60 @@ function chk_st_date(){
 	}
 	else {
 		st_date_ok=false;
+	}
+	return false;
+}
+
+function chk_calc_from_data(){
+	var date = new Date();
+	var year = date.getFullYear();
+	var ess = /^\*$|([1-9]|1[0-9]|2[0-9]|30|31)\.([1-9]|1[0-2])\.\d{4}$/;
+	var val = $("#from_calc_data").val();
+	var int_year = parseInt(val.slice(-4));
+
+	if (val.match(ess)){
+		if (val != "*"){
+			if (int_year >= 1900){
+				if(chk_date_num(val)==true){
+					calc_from_ok=true;
+					return true;
+				}
+			}
+		}else{
+			calc_from_ok=true;
+			return true;
+
+		}
+	}
+	else {
+		calc_from_ok=false;
+	}
+	return false;
+}
+
+function chk_calc_to_data(){
+	var date = new Date();
+	var year = date.getFullYear();
+	var ess = /^\*$|([1-9]|1[0-9]|2[0-9]|30|31)\.([1-9]|1[0-2])\.\d{4}$/;
+	var val = $("#to_calc_data").val();
+	var int_year = parseInt(val.slice(-4));
+
+	if (val.match(ess)){
+		if(val !="*"){
+			if (int_year <= year){
+				if(chk_date_num(val)==true){
+					calc_to_ok=true;
+					return true;
+				}
+			}
+		}else{
+			calc_to_ok=true;
+			return true;
+		}
+	}
+
+	else {
+		calc_to_ok=false;
 	}
 	return false;
 }

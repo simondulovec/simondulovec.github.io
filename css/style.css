@@ -822,7 +822,7 @@ margin:auto;
 
 .emp_scr_lt{
 width:1200px;
-height:310px;
+height:312px;
 #background:green;
 margin:2px auto 0 auto;
 overflow-y:auto;
@@ -1010,7 +1010,7 @@ margin-left:2px;
 
 .atd_scr_lt{
 width:1350px;
-height:310px;
+height:312px;
 #background:green;
 margin:2px auto 0 auto;
 overflow-y:auto;
@@ -1084,13 +1084,13 @@ height:50px;
 }
 
 .check_in_ipt{
-width:281px;
-margin-left:302px;
+width:250px;
+margin-left:352px;
 margin-top:0;
 }
 
 .check_out_ipt{
-width:281px;
+width:250px;
 margin-left:2px;
 margin-top:0;
 }
@@ -1117,7 +1117,7 @@ margin:10px;
 }
 
 .calc_sch{
-width:896px;
+width:1058px;
 animation-delay:0.1s;
 }
 
@@ -1126,21 +1126,59 @@ margin:0px;
 }
 
 #id_calc_data{
-width:280px;
+width:250px;
 }
 
 #from_calc_data{
-width:280px;
+width:250px;
 margin-left:2px;
 }
 
 #to_calc_data{
-width:280px;
+width:250px;
 margin-left:2px;
 }
 
+.dd_state{
+width:250px;
+height:50px;
+margin-left:2px;
+position:relative;
+}
+
+#dd_state_btn{
+width:250px;
+height:50px;
+margin:0;
+font-size:20px;
+z-index:1;
+}
+
+.dd_state_mn{
+position:absolute;
+top:52px;
+width:250px;
+height:154px;
+overflow:hidden;
+z-index:1;
+}
+
+.dd_state_lt{
+width:250px;
+height:156px;
+top:-156px;
+display:block;
+}
+
+.dd_state_lt button{
+margin:0 0 2px 0;
+width:250px;
+height:50px;
+font-size:20px;
+}
+
 .result_mn{
-width:600px;
+width:700px;
 height:200px;
 margin:auto;
 margin:90px auto 0 auto;
@@ -1160,13 +1198,16 @@ font-size:70px;
 margin:auto;
 }
 
+#cash_out_btn{
+margin:auto;
+}
+
 .result{
-width:600px;
+width:700px;
 height:120px;
 margin:20px auto 0 auto;
 font-size:70px;
 display:flex;
-background:blue;
 }
 
 .result span{
@@ -1177,6 +1218,6 @@ margin:auto;
 width:120px;
 height:120px;
 margin:100px auto 0 auto;
-background:red;
 }
+
 
