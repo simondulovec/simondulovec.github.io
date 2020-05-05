@@ -9,7 +9,7 @@ echo "<div class='mn_ctn'>
 		</div>
 		
 		<div class='des_panel atd_des def_csr from_top'>
-			<div class='atd_name_des des_ele'><span>Meno</span></div>
+			<div class='atd_name_des des_ele'><span>Id karty</span></div>
 			<div class='check_in_des des_ele'><span>Príchod</span></div>
 			<div class='check_out_des des_ele'><span>Odchod</span></div>
 			<div class='time_des des_ele'><span>Celkový čas</span></div>

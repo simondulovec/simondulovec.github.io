@@ -4,7 +4,7 @@ require "create_conn.php";
 require "functions.php";
 
 
-$sql="SELECT osoby.meno,
+$sql="SELECT osoby.id_karty,
 	     dochadzky.zaplatene,
 	     dochadzky.id,
       	     DATE_FORMAT(DATE(dochadzky.prichod),'%e.%c.%Y') as check_in_date,
@@ -46,7 +46,7 @@ if ($result->num_rows > 0){
 
 echo "<div class='atd_lt_item fade_in'>	      
 	<div class='atd_info'>
-			<div class='atd_lt_name atd_item_ele def_csr'><span>".$row["meno"]."</span></div>
+			<div class='atd_lt_name atd_item_ele def_csr'><span>".$row["id_karty"]."</span></div>
 			<div class='atd_lt_check_in atd_item_ele deft_csr'><span>".convert_day("check_in_day",$row).", ".$row["check_in_date"]." ".$row["check_in_time"]."</span></div>
 			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".$check_out."</span></div>
 			<div class='atd_lt_time atd_item_ele def_csr'><span>".$row["time"]."</span></div>

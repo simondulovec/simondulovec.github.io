@@ -1,15 +1,12 @@
 <?php
 require "connect.php";
 require "create_conn.php";
-$sql="DELETE FROM pozicie WHERE id=(".$_POST["exp_id"].")";
-$conn->query($sql);
-$response =array();
+$sql="SELECT del_exp(".$_POST["exp_id"].") as rem_id";
 
-if ($conn-> affected_rows == -1){
-	$response["state"]="error";
-}else{
-	$response["state"]="success";
-}
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
+$response = array();
+$response["state"] = $row["rem_id"]; 
 
 echo json_encode($response);
 

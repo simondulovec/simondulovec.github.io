@@ -26,13 +26,11 @@ var dd_state_dpd=false;
 
 var emp_card_id="";
 
-//var city_itl=nul;
-
-jQuery.ajaxSetup({async:false});
+//jQuery.ajaxSetup({async:false});
 
 $(document).ready(function(){
 
-	$("#app").load("php/calc_mn.php");
+	$("#app").load("php/app_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -110,12 +108,8 @@ $(document).ready(function(){
 				url: "php/emp_check_in.php",
 				data: {emp_card_id: emp_card_id},
 				success: function(data){
-					if (data.state=="check_in_error"){
-						show_info("Najprv zaregistrujte odchod!");
-					}else if (data.state=="employee_checked_in"){
-						$('.check_in_pn').text("Príchod: " + get_curr_time());
-						show_info("Príchod zaregistrovaný!");
-					}
+					show_info(data.state)
+					$('.check_in_pn').text("Príchod: " + get_curr_time());	
 				},
 				error: function(){
 					show_info("Chyba spojenia!");
@@ -139,12 +133,8 @@ $(document).ready(function(){
 				url: "php/emp_check_out.php",
 				data: {emp_card_id: emp_card_id},
 				success: function(data){
-					if (data.state=="check_out_error"){
-						show_info("Najprv zaregistrujte príchod!");
-					}else if (data.state=="employee_checked_out"){
-						$('.check_in_pn').text("Príchod: nezaregistrovaný");
-						show_info("Odchod zaregistrovaný!");
-					}
+					show_info(data.state);
+					$('.check_in_pn').text("Príchod: nezaregistrovaný");
 				},
 				error: function(){
 					show_info("Chyba spojenia!");
@@ -158,6 +148,7 @@ $(document).ready(function(){
 
 	$(document).on("mousedown","#add_emp",function(){
 		anim_adm_mn();
+		anim_home();
 		setTimeout(function(){
 			$("#app").empty();
 			$("#app").load("php/crt_emp.php",function(){
@@ -168,10 +159,10 @@ $(document).ready(function(){
 
 	$(document).on("mousedown","#emp_vw_mn",function(){
 		anim_adm_mn();
+		anim_home();
 		setTimeout(function(){
 			$("#app").empty();
 			$("#app").load("php/emp_vw_mn.php",function(){
-				//loading employee data from database
 				ld_emp();
 			});
 		},500);
@@ -179,6 +170,7 @@ $(document).ready(function(){
 
 	$(document).on("mousedown","#emp_atd_mn",function(){
 		anim_adm_mn();	
+		anim_home();
 		setTimeout(function(){
 			$("#app").empty();
 			$("#app").load("php/emp_atd_mn.php",function(){
@@ -189,6 +181,7 @@ $(document).ready(function(){
 
 	$(document).on("mousedown","#calc",function(){
 		anim_adm_mn();
+		anim_home();
 		setTimeout(function(){
 			$("#app").empty();
 			$("#app").load("php/calc_mn.php",function(){
@@ -199,10 +192,12 @@ $(document).ready(function(){
 	/*=======================CREATE_EMPLOYEE======================*/
 
 	$(document).on("mousedown","#home",function(){
+		anim_adm_mn();
+		anim_home();
 		setTimeout(function(){
 			$("#app").empty();
 			$("#app").load("php/app_mn.php");
-		},300);
+		},500);
 	});	
 
 	$(document).on("mousedown",".bk_crt_emp",function(){
@@ -246,10 +241,18 @@ $(document).ready(function(){
 				method: "post",
 				dataType: "json",
 				url: "php/ins_new_emp.php",
-				data: {card_id:card_id, emp_nm:emp_nm, 
-					date_of_bh:date_of_bh, salary:salary, 
-					st_date:st_date,exp_id:exp_id, city:city, 
-					street:street, stt_num:stt_num, add_info:add_info,phone_num:phone_num},
+				data: {card_id:card_id, 
+					emp_nm:emp_nm, 
+					date_of_bh:date_of_bh,
+					salary:salary, 
+					st_date:st_date,
+					exp_id:exp_id,
+					city:city, 
+					street:street,
+					stt_num:stt_num,
+					add_info:add_info,
+					phone_num:phone_num
+				},
 				success: function(data){
 					show_info(data.state);
 				},
@@ -311,7 +314,7 @@ $(document).ready(function(){
 				data: {expertise:expertise},
 				success: function(data){
 					if (data.state==false){
-						show_info("Pozícia sa v systéme už nacádza!");
+						show_info("Pozícia sa už v systéme nacádza!");
 					}else{
 						ld_exp();
 						$(".new_exp").val("");
@@ -345,12 +348,8 @@ $(document).ready(function(){
 				url: "php/del_exp.php",
 				data: {exp_id:exp_id},
 				success: function(data){
-					if (data.state == "error"){
-						show_info("Pozícia sa nedá odstrániť!");
-					}else{
+					show_info(data.state);
 						ld_exp();
-						show_info("Pozícia odstránená!");
-					}
 					var lt_height = ($(".exp_scr_lt").find(".exp_lt_ele").length * 52) - 52;
 					if (lt_height < 156){
 						$(".exp_lt").css("height","" + lt_height + "px");
@@ -460,7 +459,6 @@ $(document).ready(function(){
 					show_info("Chyba spojenia!");
 				},
 				complete: hide_loading
-
 			});
 		});
 	});
@@ -488,12 +486,37 @@ $(document).ready(function(){
 		var emp_id = $(this).val();
 		set_ud_emp();
 		setTimeout(function(){
-			//var emp_id = $(this).val();
 			$("#app").empty();
-			$("#app").load("php/edit_emp.php",{emp_id:emp_id},function(){
+			$("#app").load("php/edt_emp_mn.php",function(){
 				ld_exp();
+				show_loading();
 			});
-		},300);
+			$.ajax({
+				method: "post",
+				dataType: "json",
+				url: "php/ld_edt_emp_data.php",
+				data: {emp_id:emp_id},
+				success:function(data){
+					$(".card_id").val(data.id_karty);
+					$(".emp_nm").val(data.meno);
+					$(".date_of_bh").val(data.datum_narodenia);
+					$(".city").val(data.mesto);
+					$(".street").val(data.ulica);
+					$(".stt_num").val(data.psc);
+					$(".sh_exp_lt").val(data.id_poz);
+					$(".sh_exp_lt").text(data.nazov_poz);
+					$(".salary").val(data.plat);
+					$(".st_date").val(data.datum_nastupu);
+					$(".phone_num").val(data.tel_cislo);
+					$(".add_info").val(data.poznamky);
+					$(".ud_emp").val(data.id);
+				},
+				error:function(){
+					show_info("Chyba spojenia");
+				},
+				complete: hide_loading	
+			})
+		},400);
 	});
 
 	/*========================EMPLOYEE_EDIT_MENU=======================*/
@@ -519,11 +542,19 @@ $(document).ready(function(){
 				method: "post",
 				dataType: "json",
 				url: "php/ud_emp.php",
-				data: {card_id:card_id, emp_nm:emp_nm, 
-					date_of_bh:date_of_bh, salary:salary, 
-					st_date:st_date,exp_id:exp_id, city:city, 
-					street:street, stt_num:stt_num, add_info:add_info, 
-					phone_num:phone_num, emp_id:emp_id},
+				data: {card_id:card_id,
+					emp_nm:emp_nm, 
+					date_of_bh:date_of_bh,
+					salary:salary, 
+					st_date:st_date,
+					exp_id:exp_id,
+					city:city, 
+					street:street,
+					stt_num:stt_num,
+					add_info:add_info, 
+					phone_num:phone_num,
+					emp_id:emp_id
+				},
 				success: function(data){
 					show_info(data.state);
 				},
@@ -565,22 +596,22 @@ $(document).ready(function(){
 	$(document).on("mousedown",".edit_atd",function(){
 		edt_atd_ok=true;
 		var parent_item = $(this).parent().parent();
-		
+
 		var check_out_v = parent_item.find(".atd_lt_check_out").text();
 
 		if (check_out_v == "Nezaregistrovaný"){
 			show_info("Dochádzku nie je možné upraviť!");
 		}else{
 
-		if (edt_atd_dpd==false){
-			hide_atd_lt_item(parent_item);
-			show_edit_atd(parent_item);
-		}else if (edt_atd_dpd==true){
-			hide_edit_atd();
-			show_atd_lt_item();
-			hide_atd_lt_item(parent_item);
-			show_edit_atd(parent_item);
-		}
+			if (edt_atd_dpd==false){
+				hide_atd_lt_item(parent_item);
+				show_edit_atd(parent_item);
+			}else if (edt_atd_dpd==true){
+				hide_edit_atd();
+				show_atd_lt_item();
+				hide_atd_lt_item(parent_item);
+				show_edit_atd(parent_item);
+			}
 		}
 	});
 
@@ -599,7 +630,10 @@ $(document).ready(function(){
 				method: "post",
 				dataType: "json",
 				url: "php/ud_atd.php",
-				data: {atd_id:atd_id, check_in:check_in, check_out:check_out},
+				data: {atd_id:atd_id,
+					check_in:check_in,
+					check_out:check_out
+				},
 				success: function(data){
 					if (data.state=="update_succesfull"){
 						hide_edit_atd();
@@ -637,31 +671,31 @@ $(document).ready(function(){
 			show_info("Dochádzku nie je možné vymazať!");
 		}else{
 
-		show_question("Naozaj chcete dochádzku odstrániť?");
-		$(document).on("mousedown",".con_pp",function(){
-			hide_question();
-			show_loading();
-			$.ajax({
-				method: "post",
-				dataType: "json",
-				url: "php/del_atd.php",
-				data: {atd_id:atd_id},
-				success: function(data){
-					if (data.state=="error"){
-						show_info("Dochádzka sa nedá odstrániť!");
-					}else if (data.state=="delete_succesfull"){
-						ld_atd();
-						show_info("Dochádzka odstránená!");
+			show_question("Naozaj chcete dochádzku odstrániť?");
+			$(document).on("mousedown",".con_pp",function(){
+				hide_question();
+				show_loading();
+				$.ajax({
+					method: "post",
+					dataType: "json",
+					url: "php/del_atd.php",
+					data: {atd_id:atd_id},
+					success: function(data){
+						if (data.state=="error"){
+							show_info("Dochádzka sa nedá odstrániť!");
+						}else if (data.state=="delete_succesfull"){
+							ld_atd();
+							show_info("Dochádzka odstránená!");
+						}
+					},
+					error: function(){
+						show_info("Chyba spojenia!");
+					},
+					complete:function(){
+						hide_loading();
 					}
-				},
-				error: function(){
-					show_info("Chyba spojenia!");
-				},
-				complete:function(){
-					hide_loading();
-				}
+				});
 			});
-		});
 		}
 	});
 
@@ -677,41 +711,41 @@ $(document).ready(function(){
 		},500);
 	});
 
-
 	$(document).on("mousedown",".cash_out",function(){
 		var atd_id=$(this).val();
-		var check_out_v = $(this).parent().parent().find(".atd_lt_check_out").text();
+		var csh_out_v = $(this).parent().parent().find(".atd_lt_csh_out").text();
+		var time_v = $(this).parent().parent().find(".atd_lt_time").text();
 
-		if (check_out_v == "Nezaregistrovaný"){
+		if (time_v == "Prázdne"){
 			show_info("Dochádzku nie je možné zaplatiť!");
-		}else{
+		}else if (csh_out_v == "Zaplatené")
+			show_info("Dochádzku je už zaplatená!");
+		else{
+			show_question("Naozaj chcete dochádzku zaplatiť?");
+			$(document).on("mousedown",".con_pp",function(){
+				hide_question();
+				show_loading();
+				$.ajax({
+					method: "post",
+					dataType: "json",
+					url: "php/cash_out.php",
+					data: {atd_id:atd_id},
+					success:function(data){
+						if (data.state=="no_changes"){
+							show_info("Žiadne zmeny!");
+						}else if (data.state=="update_succesfull"){
+							ld_atd();
+							show_info("Dochádzka zaplatená");
+						}
+					},
+					error: function(){
+						show_info("Chyba spojenia!");
+					},
+					complete:hide_loading
+				});
 
-		show_question("Naozaj chcete dochádzku zaplatiť?");
-		$(document).on("mousedown",".con_pp",function(){
-			hide_question();
-			show_loading();
-			$.ajax({
-				method: "post",
-				dataType: "json",
-				url: "php/cash_out.php",
-				data: {atd_id:atd_id},
-				success:function(data){
-					if (data.state=="no_changes"){
-						show_info("Žiadne zmeny!");
-					}else if (data.state=="update_succesfull"){
-						ld_atd();
-						show_info("Dochádzka zaplatená");
-					}
-				},
-				error: function(){
-					show_info("Chyba spojenia!");
-				},
-				complete:hide_loading
 			});
-
-		});
 		}
-
 	});
 
 	/*=========================CALC_MENU========================*/
@@ -750,7 +784,6 @@ $(document).ready(function(){
 		var from = list_data[1];
 		var to = list_data[2];
 
-
 		show_loading();
 		$.ajax({	
 			method: "post",
@@ -758,17 +791,14 @@ $(document).ready(function(){
 			url: "php/calc_cash_out.php",
 			data: {emp_id:emp_id, from:from, to:to},
 			success: function(data){
-				$(".euro").parent().html("<span class='euro'>0 €</span>");
-
+				$(".euro").parent().html("<span class='euro fade_in'>0 €</span>");
 				show_info(data.state);
 			},
 			error:function(){
 				show_info("Chyba siete!");
 			},
 			complete: hide_loading
-
 		});
-
 	});
 
 	$(document).on("mousedown","#dd_state_btn",function(){
@@ -777,7 +807,6 @@ $(document).ready(function(){
 		}else if(dd_state_dpd ==true){
 			hide_state();
 		}
-
 	});
 
 	$(document).on("mousedown","#state_all",function(){
@@ -794,9 +823,6 @@ $(document).ready(function(){
 		$("#dd_state_btn").val($(this).val());
 		$("#dd_state_btn").html($(this).text());
 	});
-
-
-
 });
 
 /*=======================FUNCTIONS=========================*/
@@ -815,17 +841,15 @@ function anim_adm_mn(){
 	$('#calc').animate({left:"+=1000px"},600);
 }
 
+function anim_home(){
+	$("#home").animate({top: "+=700px"},600);
+}
+
 /*=======================POP_UP_FUNCTIONS=========================*/
 
 //when pop up is visible ,all events are off !!!
 function bind_crt_emp(e){
 	var $target = $(e.target);
-
-	/*if (!$target.is(".card_id")){
-	//document.write(city_itl);
-		clearInterval(city_itl);
-	}*/
-
 
 	if (exp_lt_dpd==true){
 		if (!$target.is(".sh_exp_lt")){
@@ -923,7 +947,6 @@ function hide_loading(){
 	$(".ctd *").css("pointer-events", "auto");	
 }
 
-
 function hide_info(){
 	$(".pop_up").css('display','none');
 	$(".info").css('display','none');
@@ -933,7 +956,6 @@ function hide_info(){
 		bind_crt_emp(e);
 	});
 	$(".ctd *").css("pointer-events", "auto");
-
 }
 
 function hide_question(){
@@ -963,7 +985,7 @@ function set_ud_emp(){
 	phone_num_ok = true;
 }
 
-/*=========================/*CALC_MENU_FUNCTIONS========================*/
+/*=========================CALC_MENU_FUNCTIONS========================*/
 function show_state(){
 	$('.dd_state_lt').animate({top:"+=156px"},200);
 	dd_state_dpd=true;
@@ -1294,7 +1316,6 @@ function chk_calc_id(){
 	}
 	return false;
 }
-
 
 function chk_emp_nm(){
 	var ess=/^[a-zA-ZÀ-Ž\s]{1,30}$/;

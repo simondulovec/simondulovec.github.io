@@ -506,6 +506,12 @@ height:250px;
 animation-delay:0.3s;
 }
 
+.home_btn{
+width:120px;
+height:120px;
+margin:60px auto 0 auto;
+}
+
 
 
 /*=========================USER_MENU=========================*/
@@ -534,6 +540,7 @@ animation-delay:0.1s;
 
 #usr_id{
 margin-top:20px;
+color:transparent;
 opacity:0;
 }
 
@@ -1011,7 +1018,6 @@ margin-left:2px;
 .atd_scr_lt{
 width:1350px;
 height:312px;
-#background:green;
 margin:2px auto 0 auto;
 overflow-y:auto;
 overflow-x:hidden;
@@ -1024,7 +1030,6 @@ position:relative;
 width:1350px;
 height:50px;
 display:flex;
-#background:blue;
 margin-bottom:2px;
 direction:ltr;
 }

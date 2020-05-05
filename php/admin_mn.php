@@ -16,8 +16,14 @@ echo "<div class='mn_ctn'>
 		<button class='big_btn from_right' id='calc'>
 		<img class='big_img' src='img/calculator.png'>
 		</button>
+
+		<div class='home_btn from_bottom'>
+		<button class='sml_btn' id='home'>
+		<img class='sml_img' src='img/home.png'>
+		</button>
 		</div>
 
-
+		
+	
       </div>";
 ?>
