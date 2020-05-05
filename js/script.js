@@ -30,7 +30,7 @@ var emp_card_id="";
 
 $(document).ready(function(){
 
-	$("#app").load("php/app_mn.php");
+	$("#app").load("php/calc_mn.php");
 
 	/*=========================MAIN_MENU=========================*/
 
@@ -1306,9 +1306,10 @@ function chk_card_id(){
 }
 
 function chk_calc_id(){
-	var ess=/^\*$|\d{1,10}$/;
+	var ess1=/^\*$/;
+	var ess2=/^\d{1,10}$/;
 	var val=$("#id_calc_data").val();
-	if (val.match(ess)){
+	if (val.match(ess1) || val.match(ess2)){
 		calc_id_ok=true;
 		return true;
 	}else{
