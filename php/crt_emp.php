@@ -77,7 +77,7 @@ echo "<div class='mn_ctn'>
 			<img class='mini_img' src='img/loading.png'>
 		</div>
 
-      </div>
+     </div>
 
 	<script>
 		$(document).on('mousedown','.city',function(){

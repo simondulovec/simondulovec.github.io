@@ -24,6 +24,8 @@ var edt_exp_dpd=false;
 var edt_atd_dpd=false;
 var dd_state_dpd=false;
 
+var pp_showed=false;
+
 var emp_card_id="";
 
 //jQuery.ajaxSetup({async:false});
@@ -350,6 +352,7 @@ $(document).ready(function(){
 				success: function(data){
 					show_info(data.state);
 						ld_exp();
+						hide_exp_lt();
 					var lt_height = ($(".exp_scr_lt").find(".exp_lt_ele").length * 52) - 52;
 					if (lt_height < 156){
 						$(".exp_lt").css("height","" + lt_height + "px");
@@ -914,6 +917,7 @@ function bind_crt_emp(e){
 }
 
 function show_info(message){
+	pp_showed=true;
 	$(".pop_up").css('display','block');
 	$(".info").css('display','block');
 	$(".pp_msg").text(message);
@@ -924,6 +928,7 @@ function show_info(message){
 }
 
 function show_question(message){
+	pp_showed=true;
 	$(".pop_up").css('display','block');
 	$(".question").css('display','block');
 	$(".pp_msg").text(message);
@@ -941,13 +946,16 @@ function show_loading(){
 
 function hide_loading(){
 	$(".loading").css('opacity','0');
+	if (!pp_showed){
 	$("main").on("mousedown",function(e){
 		bind_crt_emp(e);
 	});
-	$(".ctd *").css("pointer-events", "auto");	
+	$(".ctd *").css("pointer-events", "auto");
+	}
 }
 
 function hide_info(){
+	pp_showed=false;
 	$(".pop_up").css('display','none');
 	$(".info").css('display','none');
 	$(".ctd").css("opacity","1");
@@ -959,6 +967,7 @@ function hide_info(){
 }
 
 function hide_question(){
+	pp_showed=false;
 	$(".pop_up").css('display','none');
 	$(".question").css('display','none');
 	$(".ctd").css("opacity","1");
