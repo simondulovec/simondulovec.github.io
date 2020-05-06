@@ -1,5 +1,5 @@
 <?php
-
+/*copyright 2020 Šimon Dulovec*/
 require "connect.php";
 require "create_conn.php";
 

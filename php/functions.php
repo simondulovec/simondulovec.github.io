@@ -1,5 +1,5 @@
 <?php
-
+/*copyright 2020 Šimon Dulovec*/
 function convert_day($when,$row){
 	$day="";
 	if ($row[$when]=="Monday"){

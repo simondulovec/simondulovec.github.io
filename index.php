@@ -1,3 +1,5 @@
+<!--copyright 2020 Šimon Dulovec--!>
+
 <!DOCTYPE html>
 <html>
 	<head>

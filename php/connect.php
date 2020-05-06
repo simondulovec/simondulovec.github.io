@@ -1,4 +1,5 @@
 <?php
+/*copyright 2020 Šimon Dulovec*/
 class DatabaseConnect{
 
 	private static $instance = null;

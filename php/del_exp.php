@@ -1,4 +1,5 @@
 <?php
+/*copyright 2020 Šimon Dulovec*/
 require "connect.php";
 require "create_conn.php";
 $sql="SELECT del_exp(".$_POST["exp_id"].") as rem_id";

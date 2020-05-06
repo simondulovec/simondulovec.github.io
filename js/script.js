@@ -1,3 +1,5 @@
+/*copyright 2020 Šimon Dulovec*/
+
 /*=======================GLOBAL_VARIABLES======================*/
 var card_id_ok=false;
 var emp_nm_ok=false;
