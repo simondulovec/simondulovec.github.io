@@ -671,7 +671,7 @@ $(document).ready(function(){
 		var check_out_v = $(this).parent().parent().find(".atd_lt_check_out").text();
 
 		if (check_out_v == "Nezaregistrovaný"){
-			show_info("Dochádzku nie je možné vymazať!");
+			show_info("Dochádzku nie je možné odstrániť!");
 		}else{
 
 			show_question("Naozaj chcete dochádzku odstrániť?");
