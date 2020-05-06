@@ -355,12 +355,12 @@ textarea{
 
 .big_ipt::-webkit-input-placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
 }
 
 .big_ipt::-ms-input-placeholder{
 	opacity:1;
 }
-
 
 textarea:focus{
 	background:rgba(0,0,0,0.7);
