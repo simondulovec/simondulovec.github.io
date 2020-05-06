@@ -316,8 +316,8 @@ position:relative;
 }
 
 body{
-width:100vw;
-height:100vh;
+width:1366px;
+height:650px;
 background-image:url("../img/bckg.jpg");
 background-repeat: no-repeat;
 background-attachment: fixed;
