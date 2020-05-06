@@ -316,8 +316,8 @@ position:relative;
 }
 
 body{
-width:1366px;
-height:650px;
+width:100vw;
+height:100vh;
 background-image:url("../img/bckg.jpg");
 background-repeat: no-repeat;
 background-attachment: fixed;
@@ -1231,7 +1231,7 @@ margin:100px auto 0 auto;
 
 @media only screen and (max-width: 1365px) {
 
-.menu{
+.menu, .adm_mn, .time_date, .login, .emp_vw, .crt_emp_mn, .atd_mn, .calc_mn{
 display:none;
 }
 

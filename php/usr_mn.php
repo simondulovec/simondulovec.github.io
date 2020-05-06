@@ -1,5 +1,6 @@
 <?php 
 echo "<div class='mn_ctn'>
+		<div class='res_err'><img class='big_img' src='img/res_err.png'></div>
 		<div class='ctd time_date'>
 			<div class='def_csr from_top' id='date'>-</div>
 			<div class='def_csr from_top' id='time'>00:00:00</div>

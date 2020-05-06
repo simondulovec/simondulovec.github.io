@@ -1,5 +1,6 @@
 <?php
 echo "<div class='mn_ctn'>
+		<div class='res_err'><img class='big_img' src='img/res_err.png'></div>
 		<div class='ctd emp_vw'>
 
 			<div class='sch_panel from_top'>

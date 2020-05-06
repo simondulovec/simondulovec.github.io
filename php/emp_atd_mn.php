@@ -1,5 +1,6 @@
 <?php
 echo "<div class='mn_ctn'>
+	<div class='res_err'><img class='big_img' src='img/res_err.png'></div>
 	<div class='ctd atd_mn'>
 		<div class='sch_panel from_top'>
 			<input class='big_ipt' id='atd_data' type='text' placeholder='Hľadať'>

@@ -1,5 +1,6 @@
 <?php
 echo "<div class='mn_ctn'>
+		<div class='res_err'><img class='big_img' src='img/res_err.png'></div>
 		<div class= 'ctd adm_mn'>
 		<button class='big_btn from_left' id='add_emp'>
 		<img class='big_img' src='img/add_employee1.png'>
@@ -21,9 +22,6 @@ echo "<div class='mn_ctn'>
 		<button class='sml_btn' id='home'>
 		<img class='sml_img' src='img/home.png'>
 		</button>
-		</div>
-
-		
-	
+		</div>	
       </div>";
 ?>
