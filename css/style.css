@@ -346,11 +346,14 @@ textarea{
 	margin:20px 0 0 20px;
 	resize:none;
 	padding:10px 20px 10px 20px;
+
 	font-size:20px;
 }
 
 .big_ipt:-ms-input-placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
+
 }
 
 .big_ipt::-webkit-input-placeholder{
@@ -360,6 +363,8 @@ textarea{
 
 .big_ipt::-ms-input-placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
+
 }
 
 textarea:focus{
@@ -377,18 +382,26 @@ textarea, textarea{
 
 textarea::placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
+
 }
 
 textarea:-ms-input-placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
+
 }
 
 textarea::-webkit-input-placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
+
 }
 
 textarea::-ms-input-placeholder{
 	opacity:1;
+	color:rgb(255,255,255);
+
 }
 
 textarea:focus:-ms-input-placeholder{
