@@ -48,6 +48,7 @@ $(document).ready(function(){
 	});
 
 	$(document).on("mousedown","#usr_mn_btn",function(){
+		emp_card_id="";
 		$("#usr_mn_btn").animate({left:"-=1000px"},600);
 		$("#lgn_mn_btn").animate({left:"+=1000px"},600);
 		setTimeout(function(){
