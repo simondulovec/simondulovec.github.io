@@ -3,17 +3,12 @@
 require "connect.php";
 require "create_conn.php";
 
-$sql = "DELETE FROM dochadzky WHERE id=".$_POST["atd_id"]." AND
-	odchod IS NOT NULL";
-$conn->query($sql);
+$sql = "SELECT del_atd(".$_POST["atd_id"].") AS del_ret";
+$result = $conn->query($sql);
+$row = $result->fetch_assoc();
 
 $response=array();
-
-if ($conn->affected_rows == 0){
-	$response["state"]="error";
-}else if ($conn->affected_rows == 1){
-	$response["state"]="delete_succesfull";
-}
+$response["state"] = $row["del_ret"];
 
 echo json_encode($response);
 

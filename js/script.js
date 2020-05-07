@@ -687,12 +687,8 @@ $(document).ready(function(){
 					url: "php/del_atd.php",
 					data: {atd_id:atd_id},
 					success: function(data){
-						if (data.state=="error"){
-							show_info("Dochádzka sa nedá odstrániť!");
-						}else if (data.state=="delete_succesfull"){
-							ld_atd();
-							show_info("Dochádzka odstránená!");
-						}
+						ld_atd();
+						show_info(data.state);
 					},
 					error: function(){
 						show_info("Chyba spojenia!");
