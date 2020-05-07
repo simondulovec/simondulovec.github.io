@@ -354,7 +354,6 @@ $(document).ready(function(){
 				data: {exp_id:exp_id},
 				success: function(data){
 					show_info(data.state);
-						ld_exp();
 						hide_exp_lt();
 					var lt_height = ($(".exp_scr_lt").find(".exp_lt_ele").length * 52) - 52;
 					if (lt_height < 156){
@@ -369,7 +368,10 @@ $(document).ready(function(){
 				error: function(){
 					show_info("Chyba spojenia!");
 				},
-				complete: hide_loading
+				complete: function(){
+					ld_exp();
+					hide_loading();
+				}
 			});
 		});	
 
@@ -458,13 +460,15 @@ $(document).ready(function(){
 				url: "php/del_emp.php",
 				data: {emp_id:emp_id},
 				success: function(){
-					ld_emp();
 					show_info("Zamestnanec ostránený!");
 				},
 				error: function(){
 					show_info("Chyba spojenia!");
 				},
-				complete: hide_loading
+				complete: function(){
+					ld_emp();
+					hide_loading();
+				}
 			});
 		});
 	});
