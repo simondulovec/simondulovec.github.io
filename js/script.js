@@ -919,6 +919,8 @@ function bind_crt_emp(e){
 }
 
 function show_info(message){
+	hide_info();
+	hide_question();
 	pp_showed=true;
 	$(".pop_up").css('display','block');
 	$(".info").css('display','block');
@@ -930,6 +932,8 @@ function show_info(message){
 }
 
 function show_question(message){
+	hide_info();
+	hide_question();
 	pp_showed=true;
 	$(".pop_up").css('display','block');
 	$(".question").css('display','block');
@@ -1548,7 +1552,7 @@ function ld_emp(){
 
 function ld_atd(){
 	show_loading()
-	$("#atd_scr_lt").empty();
+	$(".atd_scr_lt").empty();
 	$(".atd_scr_lt").load("php/ld_atd.php",function(){
 		check_atd_num();
 		hide_loading();
