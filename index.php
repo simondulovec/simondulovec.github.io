@@ -1,6 +1,6 @@
+<!DOCTYPE html>
 <!--copyright 2020 Šimon Dulovec--!>
 
-<!DOCTYPE html>
 <html>
 	<head>
 		<title>App</title>
