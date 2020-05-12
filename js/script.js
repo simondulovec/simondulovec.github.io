@@ -860,7 +860,7 @@ function bind_crt_emp(e){
 	if (exp_lt_dpd==true){
 		if (!$target.is(".sh_exp_lt")){
 			if (!$target.is(".exp_scr_lt")){
-				/*	if (!$target.is(".list_button")){ */
+				if (!$target.is(".dd_btn_img")){ 
 				if (!$target.is(".rem_exp")){
 					if (!$target.is(".edt_exp")){
 						if (!$target.is(".exp_chg")){
@@ -870,7 +870,7 @@ function bind_crt_emp(e){
 						}
 					}
 				}
-				/*	}*/
+					}
 			}
 		}
 	}
@@ -888,7 +888,7 @@ function bind_crt_emp(e){
 	}
 
 	if (edt_exp_dpd==true){
-		if(!$target.is(".exp_chg")){
+		if(!$target.is(".exp_chg") && !$target.is(".dd_btn_img")){
 			if(!$target.is(".cfm_pp")){
 				if(!$target.is(".cfm_edt_exp")){
 					hide_edit_exp();

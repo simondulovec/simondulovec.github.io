@@ -40,15 +40,21 @@ if ($result->num_rows > 0) {
 			<div class='atd_lt_check_out atd_item_ele def_csr'><span>".$check_out."</span></div>
 			<div class='atd_lt_time atd_item_ele def_csr'><span>".$row["time"]."</span></div>
 			<div class='atd_lt_csh_out atd_item_ele def_csr'><span>".$row["zaplatene"]."</span></div>
-			<button class='dd_btn edit_atd' value=".$row["id"].">~</button>
+			<button class='dd_btn edit_atd' value=".$row["id"].">
+				<img class='dd_btn_img' src='img/pencil.png'>
+			</button>
 			<button class='dd_btn cash_out' value=".$row["id"].">€</button>
-			<button class='dd_btn rem_atd' value=".$row["id"].">‒</button>
+			<button class='dd_btn rem_atd' value=".$row["id"].">
+				<img class='dd_btn_img' src='img/del.png'>
+			</button>
 		</div>
 
 		<div class='edit_atd_mn'>
 			<input class='big_ipt check_in_ipt' type='text' value='".$row["check_in_date"]." ".$row["check_in_time"]."'>
 			<input class='big_ipt check_out_ipt' type='text' value='".$row["check_out_date"]." ".$row["check_out_time"]."'>
-			<button class='dd_btn cfm_edit_atd' value=".$row["id"].">~</button>
+			<button class='dd_btn cfm_edit_atd' value=".$row["id"].">
+				<img class='dd_btn_img' src='img/confirm2.png'>
+			</button>
 
 		</div>
 

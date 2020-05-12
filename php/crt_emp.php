@@ -16,7 +16,9 @@ echo "<div class='mn_ctn'>
 				<div class='r_panel'>
 					<div class='from_top select'>
 						<button class='sh_exp_lt' value=-1>Pozícia</button>
-						<button class='dd_btn sh_exp_mn'>+</button>
+						<button class='dd_btn sh_exp_mn'>
+							<img class='dd_btn_img' src='img/plus.png'>
+						</button>
 						<div class='exp_lt'>
 							<div class='exp_scr_lt'>
 							</div>
@@ -24,7 +26,9 @@ echo "<div class='mn_ctn'>
 						<div class='exp_mn'>
 							<div class='exp_sli_mn'>
 								<input class='big_ipt new_exp' type='text' placeholder='Pozícia (bez diakritiky)'>
-								<button class='dd_btn crt_exp'>+</button>
+								<button class='dd_btn crt_exp'>
+									<img class='dd_btn_img' src='img/plus.png'>
+								</button>
 							</div>
 						</div>
 					</div>

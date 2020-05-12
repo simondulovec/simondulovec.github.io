@@ -23,8 +23,12 @@ echo "<div class='emp_lt_item fade_in'>
 	<div class='emp_lt_date emp_item_ele def_csr'><span>".$row["formatted_date"]."</span></div>
 	<div class='emp_lt_exp emp_item_ele def_csr'><span>".$row["nazov"]."</span></div>
 	<button class='dd_btn sh_emp_add_inf' value=".$row["id"].">i</button>
-	<button class='dd_btn edit_emp' value=".$row["id"].">~</button>
-	<button class='dd_btn' id='rem__emp' value=".$row["id"].">‒</button>
+	<button class='dd_btn edit_emp' value=".$row["id"].">
+		<img class='dd_btn_img' src='img/pencil.png'>	
+	</button>
+	<button class='dd_btn' id='rem__emp' value=".$row["id"].">
+		<img class='dd_btn_img' src='img/del.png'>		
+	</button>
      </div>";
 }
 }

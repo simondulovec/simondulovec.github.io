@@ -161,6 +161,13 @@ button:focus {
 
 /*=======================BUTTONS====================*/
 
+.dd_btn_img{
+width:25px;
+height:25px;
+margin-top:5px;
+#pointer-events:none;
+}
+
 .big_btn{
 	width:200px;
 	height:200px;
